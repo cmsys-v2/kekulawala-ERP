@@ -83,7 +83,7 @@
   --tipbar-bg: rgba(56,189,248,0.10);
   --tipbar-text: #7dd3fc;
 
-  --card-bg: rgba(15,24,42,0.62);
+  --card-bg: rgba(13,22,39,0.84);
   --card-bg-solid: #0b1322;
   --card-border: rgba(255,255,255,0.075);
   --card-border-strong: rgba(255,255,255,0.13);
@@ -132,7 +132,7 @@
 
   --gradient-primary: linear-gradient(135deg, #0b1a34 0%, #071120 55%, #04100e 100%);
   --gradient-accent: linear-gradient(120deg, #22d3ee, #3b82f6, #10b981);
-  --glass-bg: rgba(13,21,38,0.58);
+  --glass-bg: rgba(13,22,39,0.8);
   --glass-border: rgba(255,255,255,0.08);
   --glass-highlight: inset 0 1px 0 rgba(255,255,255,0.09);
 
@@ -176,7 +176,7 @@
   --tipbar-bg: rgba(52,211,153,0.10);
   --tipbar-text: #6ee7b7;
 
-  --card-bg: rgba(9,29,23,0.62);
+  --card-bg: rgba(8,28,22,0.84);
   --card-bg-solid: #071a15;
   --card-border: rgba(255,255,255,0.075);
   --card-border-strong: rgba(110,231,183,0.18);
@@ -217,7 +217,7 @@
   --brand-gradient: linear-gradient(120deg, #34d399 0%, #22d3ee 55%, #a3e635 100%);
   --gradient-primary: linear-gradient(135deg, #062b22 0%, #04140f 60%, #041a1c 100%);
   --gradient-accent: linear-gradient(120deg, #34d399, #22d3ee, #a3e635);
-  --glass-bg: rgba(7,26,21,0.58);
+  --glass-bg: rgba(8,28,22,0.8);
   --glass-border: rgba(110,231,183,0.12);
 
   --mobile-nav-bg: rgba(4,16,13,0.88);
@@ -260,7 +260,7 @@
   --tipbar-bg: rgba(167,139,250,0.12);
   --tipbar-text: #c4b5fd;
 
-  --card-bg: rgba(20,20,30,0.6);
+  --card-bg: rgba(19,19,29,0.84);
   --card-bg-solid: #101018;
   --card-border: rgba(255,255,255,0.075);
   --card-border-strong: rgba(196,181,253,0.18);
@@ -297,7 +297,7 @@
   --brand-gradient: linear-gradient(120deg, #8b5cf6, #6366f1 50%, #ec4899);
   --gradient-primary: linear-gradient(135deg, #1b1030 0%, #0a0a12 60%, #160b1e 100%);
   --gradient-accent: linear-gradient(120deg, #8b5cf6, #6366f1, #ec4899);
-  --glass-bg: rgba(18,18,28,0.58);
+  --glass-bg: rgba(19,19,29,0.8);
   --glass-border: rgba(196,181,253,0.12);
 
   --mobile-nav-bg: rgba(9,9,15,0.9);
@@ -344,7 +344,7 @@
   --tipbar-bg: rgba(37,99,235,0.08);
   --tipbar-text: #1d4ed8;
 
-  --card-bg: rgba(255,255,255,0.86);
+  --card-bg: rgba(255,255,255,0.93);
   --card-bg-solid: #ffffff;
   --card-border: rgba(15,23,42,0.07);
   --card-border-strong: rgba(37,99,235,0.18);
@@ -1950,7 +1950,7 @@ button, a, [role="button"] { min-height: 34px; }
 
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(196px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(188px, 1fr));
   gap: 14px;
 }
 
