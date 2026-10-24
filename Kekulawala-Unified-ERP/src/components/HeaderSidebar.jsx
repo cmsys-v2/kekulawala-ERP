@@ -294,7 +294,12 @@ export const HeaderSidebar = ({
           <div className="sidebar-status">
             <span className="dot" />
             <span>Cloud sync live</span>
-            <span style={{ marginLeft: 'auto', fontSize: 9, opacity: 0.6, fontFamily: 'var(--font-mono)' }}>v6.0</span>
+            <span
+              title={`Build ${window.__KERP_BUILD__ || '6.2.0'} · Interface Aurora Command`}
+              style={{ marginLeft: 'auto', fontSize: 9, opacity: 0.65, fontFamily: 'var(--font-mono)' }}
+            >
+              v{window.__KERP_BUILD__ || '6.2.0'}
+            </span>
           </div>
         )}
         <button

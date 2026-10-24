@@ -354,6 +354,16 @@ export const SettingsView = ({ settings, setSettings, showToast }) => {
                 <button className="btn btn-primary btn-sm" onClick={handleExportBackup} disabled={isExporting}>
                   <Download size={12} /> {isExporting ? 'Exporting…' : 'JSON backup'}
                 </button>
+                <button
+                  className="btn btn-secondary btn-sm"
+                  title="Unregister service workers, clear caches and reload a fresh build"
+                  onClick={() => {
+                    if (window.__KERP_HARD_RESET__) window.__KERP_HARD_RESET__();
+                    else window.location.reload();
+                  }}
+                >
+                  <RefreshCw size={12} /> Reset interface cache
+                </button>
               </div>
             </div>
 
@@ -375,7 +385,7 @@ export const SettingsView = ({ settings, setSettings, showToast }) => {
             {[
               { icon: HardDrive, title: 'Master backend', value: 'Port 5000', sub: 'Express REST + static assets' },
               { icon: Database, title: 'Collections', value: '16', sub: 'Clients · projects · ledgers' },
-              { icon: FileJson, title: 'Backup format', value: 'JSON', sub: 'One-click full export' },
+              { icon: FileJson, title: 'Interface build', value: `v${window.__KERP_BUILD__ || '6.2.0'}`, sub: 'Aurora Command' },
               { icon: Globe2, title: 'Hosting', value: 'Firebase', sub: 'Global CDN delivery' },
             ].map(c => (
               <div key={c.title} className="card hover-lift" style={{ padding: 16 }}>

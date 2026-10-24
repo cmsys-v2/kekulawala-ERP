@@ -2141,3 +2141,46 @@ button, a, [role="button"] { min-height: 34px; }
   .kpi-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
   .kpi-tile { padding: 14px; }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   22. COMPATIBILITY FALLBACKS & SAFE MODE
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Viewport-unit fallbacks for older engines (dvh without support) */
+.erp-shell { height: 100vh; }
+.erp-shell { height: 100dvh; }
+.erp-sidebar { max-height: 100vh; max-height: 100dvh; }
+
+/* If backdrop-filter is unsupported the glass panels stay readable */
+@supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))) {
+  :root { --card-bg: var(--card-bg-solid); --glass-bg: var(--card-bg-solid); }
+  .erp-topbar, .erp-sidebar { background: var(--surface-0); }
+  .erp-modal-overlay, .cmdk-overlay { background: rgba(2, 6, 15, 0.94); }
+}
+
+/* ── Safe mode: ?safe=1 — removes GPU-heavy effects only ── */
+html.safe-mode .aurora-blob { display: none; }
+html.safe-mode .aurora-grid { opacity: 0.6; }
+html.safe-mode .erp-sidebar,
+html.safe-mode .erp-topbar,
+html.safe-mode .card,
+html.safe-mode .glass-card,
+html.safe-mode .kpi-tile,
+html.safe-mode .erp-modal,
+html.safe-mode .popover,
+html.safe-mode .mobile-bottom-nav {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: var(--card-bg-solid) !important;
+}
+html.safe-mode .hero-orb,
+html.safe-mode .hero-ring,
+html.safe-mode .aurora-grain { display: none !important; }
+html.safe-mode *,
+html.safe-mode *::before,
+html.safe-mode *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+html.safe-mode .glow-frame::before { display: none; }

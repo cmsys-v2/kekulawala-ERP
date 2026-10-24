@@ -3,8 +3,8 @@
  * Strategy: Network-first for API, Cache-first for static assets
  */
 
-const CACHE_NAME = 'kerp-v6-aurora';
-const STATIC_CACHE = 'kerp-static-v6';
+const CACHE_NAME = 'kerp-v6-2-aurora';
+const STATIC_CACHE = 'kerp-static-v6-2';
 
 const PRECACHE_URLS = [
   '/',
@@ -42,6 +42,15 @@ self.addEventListener('fetch', event => {
   // Skip non-GET and cross-origin (e.g. Firebase)
   if (request.method !== 'GET') return;
   if (!url.origin.includes(self.location.origin)) return;
+
+  // Never intercept the dev server module graph / HMR traffic
+  if (
+    url.pathname.startsWith('/src/') ||
+    url.pathname.startsWith('/@') ||
+    url.pathname.startsWith('/node_modules/') ||
+    url.search.includes('t=') ||
+    url.search.includes('import')
+  ) return;
 
   // For navigation requests — serve shell from cache on failure
   if (request.mode === 'navigate') {
