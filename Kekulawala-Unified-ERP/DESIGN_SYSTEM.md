@@ -149,7 +149,21 @@ make the physical output look trustworthy.
 
 ---
 
-## 6. Accessibility & performance
+## 6. Boot reliability & caching
+
+The interface must never depend on a warm cache to start.
+
+| Layer | Behaviour |
+| :-- | :-- |
+| **Serving** | The live preview runs `vite build` + `vite preview` (static, hashed assets) rather than the dev ESM graph, so no per-module cache-busting requests are involved. `npm run serve` reproduces this locally. |
+| **Service worker** | Off by default. Registered only for a production build **and** when `?sw=1` is present. On every other load, existing registrations and all cache buckets are removed. |
+| **Cache hygiene** | `index.html` purges registrations + caches idempotently on load — it never triggers a navigation, so it cannot loop inside sandboxed iframes. |
+| **Watchdog** | If the bundle has not mounted after 12 s, a recovery card replaces the black screen with *Reload fresh copy* and *Safe mode*. |
+| **ErrorBoundary** | Runtime render errors show the failing component, the message and a one-click cache reset — the app never white-screens. |
+| **Safe mode** | `?safe=1` disables blur, aurora blobs and all animation for low-power GPUs. |
+| **Build stamp** | `window.__KERP_BUILD__` (v6.3.0) is shown in the sidebar and in Settings → Cloud so the running build is always verifiable. |
+
+## 7. Accessibility & performance
 
 - WCAG AA text contrast on all four themes; focus rings use
   `--input-border-focus`.
@@ -163,7 +177,7 @@ make the physical output look trustworthy.
 
 ---
 
-## 7. Extending
+## 8. Extending
 
 1. Add a view to `NAV_ITEMS` in `src/components/HeaderSidebar.jsx`
    (`id`, `label`, `icon`, `category`, `hint`).

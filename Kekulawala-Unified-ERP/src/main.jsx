@@ -45,12 +45,17 @@ requestAnimationFrame(() => requestAnimationFrame(dismissBoot));
 setTimeout(dismissBoot, 8000);
 
 /* ─────────────────────────────────────────────────────────────
-   Service worker — production only.
-   In dev / live-preview the SW is removed entirely so a stale
-   cache can never shadow freshly compiled modules.
+   Service worker policy
+   -----------------------------------------------------------------
+   A PWA cache is only ever enabled deliberately (?sw=1 on a
+   production build). Everywhere else — dev server, live preview,
+   iframe embeds — any existing registration is removed and all
+   caches are dropped so a stale build can never be served.
    ───────────────────────────────────────────────────────────── */
 if ('serviceWorker' in navigator) {
-  if (import.meta.env.PROD) {
+  const wantsSW = import.meta.env.PROD && new URLSearchParams(window.location.search).has('sw');
+
+  if (wantsSW) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/sw.js', { scope: '/' })
         .then(reg => console.log('[PWA] Service worker active:', reg.scope))
@@ -59,11 +64,11 @@ if ('serviceWorker' in navigator) {
   } else {
     navigator.serviceWorker.getRegistrations()
       .then(regs => {
-        if (regs.length) console.info('[PWA] Removing stale service worker(s) in dev mode');
-        return Promise.all(regs.map(r => r.unregister()));
+        if (regs.length) console.info('[K-ERP] Purging stale service worker(s) for a clean load');
+        return Promise.all(regs.map(r => r.unregister().catch(() => false)));
       })
-      .then(() => window.caches && window.caches.keys())
-      .then(keys => keys && Promise.all(keys.map(k => window.caches.delete(k))))
+      .then(() => (window.caches ? window.caches.keys() : []))
+      .then(keys => Promise.all((keys || []).map(k => window.caches.delete(k).catch(() => false))))
       .catch(() => { /* non-fatal */ });
   }
 }

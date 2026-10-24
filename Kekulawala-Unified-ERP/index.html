@@ -126,93 +126,56 @@
     </div>
     <div id="root"></div>
 
-    <!-- ─── Build guard · stale-cache recovery · boot watchdog ─── -->
+    <!-- ─── Cache hygiene · stale-worker purge · boot watchdog ───
+         No reload loops: everything here is idempotent and safe inside
+         sandboxed iframes where storage access can throw. -->
     <script>
-      window.__KERP_BUILD__ = '6.2.0';
+      window.__KERP_BUILD__ = '6.3.0';
       (function () {
-        var BUILD = '6.2.0';
-        var BUILD_KEY = 'kerp_build';
-        var RESET_KEY = 'kerp_reset_done_' + BUILD;
         var params = new URLSearchParams(location.search);
 
-        /* ── Safe mode (also honoured in main.jsx) ─────────── */
+        /* Safe mode — strips GPU-heavy effects (also honoured in main.jsx) */
         if (params.has('safe')) document.documentElement.classList.add('safe-mode');
 
-        /* ── Hard reset helper (used by the watchdog + boundary) ── */
-        window.__KERP_HARD_RESET__ = function () {
-          try { localStorage.setItem(BUILD_KEY, BUILD); } catch (e) {}
-          try { sessionStorage.setItem(RESET_KEY, '1'); } catch (e) {}
-          var finish = function () {
-            var url = new URL(location.href);
-            url.searchParams.set('v', Date.now().toString(36));
-            url.searchParams.delete('reset');
-            location.replace(url.toString());
-          };
-          var jobs = [];
-          try {
-            if ('serviceWorker' in navigator) {
-              jobs.push(navigator.serviceWorker.getRegistrations().then(function (rs) {
-                return Promise.all(rs.map(function (r) { return r.unregister(); }));
-              }));
-            }
-          } catch (e) {}
-          try {
-            if (window.caches) {
-              jobs.push(window.caches.keys().then(function (keys) {
-                return Promise.all(keys.map(function (k) { return window.caches.delete(k); }));
-              }));
-            }
-          } catch (e) {}
-          if (!jobs.length) return finish();
-          Promise.all(jobs).then(finish).catch(finish);
-          setTimeout(finish, 1200);
-        };
-
-        /* ── Stale-build guard ──────────────────────────────
-           If the stored build differs, drop every service worker
-           and cache once, then reload onto a clean origin state. */
-        var stored = null, alreadyReset = false;
-        try { stored = localStorage.getItem(BUILD_KEY); } catch (e) {}
-        try { alreadyReset = !!sessionStorage.getItem(RESET_KEY); } catch (e) {}
-        var forced = params.has('reset');
-
-        function resetOnce() {
-          if (alreadyReset) return;
-          alreadyReset = true;
-          try { sessionStorage.setItem(RESET_KEY, '1'); localStorage.setItem(BUILD_KEY, BUILD); } catch (e) {}
-          window.__KERP_HARD_RESET__();
-        }
-
-        if (forced) {
-          resetOnce();
-        } else if (stored && stored !== BUILD) {
-          // A different build was cached — purge before booting.
-          resetOnce();
-        } else {
-          try { localStorage.setItem(BUILD_KEY, BUILD); } catch (e) {}
-          // First run of this guard: if a service worker from an older
-          // release is still registered it can shadow fresh modules.
-          // Detect it once and self-heal.
-          if (!stored && 'serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistration()
-              .then(function (reg) { if (reg) resetOnce(); })
-              .catch(function () {});
+        /* Never let a service worker shadow a fresh build. Any worker found
+           is removed and every cache bucket dropped. Runs on every load and
+           cannot loop because it never triggers a navigation. */
+        try {
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function (regs) {
+              regs.forEach(function (r) {
+                try { r.unregister(); } catch (e) {}
+              });
+            }).catch(function () {});
           }
-        }
+          if (window.caches && caches.keys) {
+            caches.keys().then(function (keys) {
+              keys.forEach(function (k) {
+                // keep nothing: this app's assets are always versioned hashes
+                try { caches.delete(k); } catch (e) {}
+              });
+            }).catch(function () {});
+          }
+        } catch (e) { /* storage blocked — ignore */ }
 
-        /* ── Failure panel ─────────────────────────────────── */
+        /* Recovery card */
         function fatal(title, detail) {
-          var boot = document.getElementById('boot');
-          var host = boot || document.body.appendChild(document.createElement('div'));
-          host.className = '';
+          var host = document.getElementById('boot') || document.body;
+          if (host.id !== 'boot') {
+            var d = document.createElement('div');
+            d.id = 'boot';
+            document.body.insertBefore(d, document.body.firstChild);
+            host = d;
+          }
           host.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;' +
             'justify-content:center;padding:24px;background:#04070f;font-family:Inter,system-ui,sans-serif;';
+          host.className = '';
           host.innerHTML =
-            '<div style="width:min(620px,100%);padding:26px 28px;border-radius:22px;' +
+            '<div style="width:min(640px,100%);padding:26px 28px;border-radius:22px;' +
               'border:1px solid rgba(255,255,255,0.12);background:#0b1322;color:#eaf2ff;' +
               'box-shadow:0 40px 100px -40px rgba(0,0,0,0.9)">' +
               '<div style="font-size:9px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;' +
-                'color:#fda4af;margin-bottom:6px">Kekulawala ERP · Recovery</div>' +
+                'color:#fda4af;margin-bottom:6px">Kekulawala ERP · v' + window.__KERP_BUILD__ + '</div>' +
               '<div style="font-size:19px;font-weight:800;letter-spacing:-.03em;margin-bottom:10px">' + title + '</div>' +
               '<div style="font-size:13px;line-height:1.6;color:rgba(226,240,255,.72);margin-bottom:14px">' + detail + '</div>' +
               '<pre id="kg-detail" style="display:none;margin:0 0 16px;padding:12px 14px;border-radius:12px;' +
@@ -220,48 +183,48 @@
                 'font-size:11.5px;line-height:1.5;white-space:pre-wrap;word-break:break-word;max-height:180px;' +
                 'overflow:auto"></pre>' +
               '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
-                '<button onclick="window.__KERP_HARD_RESET__()" style="padding:11px 20px;border-radius:12px;' +
-                  'border:1px solid rgba(255,255,255,.16);cursor:pointer;color:#fff;font-size:13px;font-weight:700;' +
-                  'background:linear-gradient(120deg,#22d3ee,#2563eb 55%,#0ea371)">Reset cache &amp; reload</button>' +
-                '<button onclick="location.reload()" style="padding:11px 18px;border-radius:12px;cursor:pointer;' +
-                  'border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#dbe7f8;' +
-                  'font-size:13px;font-weight:650">Reload</button>' +
-                '<a href="?safe=1" style="padding:11px 18px;border-radius:12px;border:1px solid rgba(255,255,255,.14);' +
-                  'color:rgba(226,240,255,.7);font-size:13px;font-weight:650;text-decoration:none">Safe mode</a>' +
+                '<button id="kg-retry" style="padding:11px 20px;border-radius:12px;border:none;cursor:pointer;' +
+                  'color:#fff;font-size:13px;font-weight:700;background:linear-gradient(120deg,#22d3ee,#2563eb 55%,#0ea371)">' +
+                  'Reload fresh copy</button>' +
+                '<a href="?safe=1" style="padding:11px 18px;border-radius:12px;' +
+                  'border:1px solid rgba(255,255,255,.14);color:rgba(226,240,255,.8);font-size:13px;' +
+                  'font-weight:650;text-decoration:none">Safe mode</a>' +
               '</div></div>';
-          if (detail) {
-            var pre = document.getElementById('kg-detail');
-            if (pre && window.__KERP_LAST_ERROR__) { pre.style.display = 'block'; pre.textContent = window.__KERP_LAST_ERROR__; }
+          var btn = document.getElementById('kg-retry');
+          if (btn) btn.onclick = function () {
+            var url = new URL(location.href);
+            url.searchParams.set('v', Date.now().toString(36));
+            location.replace(url.toString());
+          };
+          var pre = document.getElementById('kg-detail');
+          if (pre && window.__KERP_LAST_ERROR__) {
+            pre.style.display = 'block';
+            pre.textContent = String(window.__KERP_LAST_ERROR__).slice(0, 1200);
           }
         }
         window.__KERP_FATAL__ = fatal;
 
-        /* Capture early script/module errors */
+        /* Capture early failures (ignore benign Firebase-offline noise) */
         window.addEventListener('error', function (ev) {
           var msg = ev && (ev.message || (ev.error && ev.error.message));
-          if (!msg) return;
-          // Ignore benign Firestore/offline noise
-          if (/firestore|firebase|ResizeObserver|Script error/i.test(msg)) return;
+          if (!msg || /firestore|firebase|ResizeObserver|Script error/i.test(msg)) return;
           window.__KERP_LAST_ERROR__ = msg + (ev.filename ? '\n' + ev.filename + ':' + ev.lineno : '');
-          if (!window.__KERP_BOOTED__) fatal('The workspace could not start', 'A script failed to load. This is usually a stale cached build — resetting the cache resolves it.');
         });
         window.addEventListener('unhandledrejection', function (ev) {
           var r = ev && ev.reason;
           var msg = r && (r.message || String(r));
-          if (!msg || /firestore|firebase|offline|network/i.test(msg)) return;
+          if (!msg || /firestore|firebase|offline|network|fetch/i.test(msg)) return;
           window.__KERP_LAST_ERROR__ = msg;
         });
 
-        /* Watchdog: if React never mounts, surface the problem */
+        /* Watchdog — if React never mounts, show recovery instead of black. */
         setTimeout(function () {
           if (window.__KERP_BOOTED__) return;
           var root = document.getElementById('root');
           if (root && root.childElementCount > 0) return;
-          var err = window.__KERP_BOOT_ERROR__ || window.__KERP_LAST_ERROR__;
-          if (err) window.__KERP_LAST_ERROR__ = (err.stack || err.message || String(err));
-          fatal('Taking longer than expected',
-                'The interface did not finish loading. Reset the cache to pull a fresh build — your data in Firebase is untouched.');
-        }, 9000);
+          fatal('The workspace could not start',
+                'The interface bundle did not execute. Reload to pull a fresh copy — your Firebase data is untouched.');
+        }, 12000);
       })();
     </script>
 

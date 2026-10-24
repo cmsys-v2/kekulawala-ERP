@@ -176,6 +176,12 @@ Backend endpoints:
 ```bash
 npm run dev
 ```
+
+### 5b. Serve the production build on Port 3000 (recommended for previews)
+```bash
+npm run serve     # vite build + static preview, no dev ESM graph, no stale SW
+```
+Open `http://localhost:3000`. Add `?safe=1` for low-power GPUs.
 Navigate your browser to `http://localhost:3000`.
 
 ### 6. Production Build

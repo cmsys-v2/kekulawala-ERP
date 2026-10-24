@@ -7,10 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
+    "preview": "vite preview --host 0.0.0.0 --port 3000 --strictPort",
     "seed": "node scripts/seedFirebase.js",
     "server": "node server/server.js",
-    "start": "node server/server.js"
+    "start": "node server/server.js",
+    "serve": "vite build && vite preview --host 0.0.0.0 --port 3000 --strictPort"
   },
   "dependencies": {
     "@google/genai": "latest",
