@@ -3,8 +3,8 @@
  * Strategy: Network-first for API, Cache-first for static assets
  */
 
-const CACHE_NAME = 'kerp-v5-2025';
-const STATIC_CACHE = 'kerp-static-v5';
+const CACHE_NAME = 'kerp-v6-aurora';
+const STATIC_CACHE = 'kerp-static-v6';
 
 const PRECACHE_URLS = [
   '/',
@@ -62,15 +62,12 @@ self.addEventListener('fetch', event => {
     url.pathname.startsWith('/icons/')
   ) {
     event.respondWith(
-      caches.match(request).then(cached => {
-        if (cached) return cached;
-        return fetch(request).then(response => {
-          if (!response || response.status !== 200) return response;
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(c => c.put(request, clone));
-          return response;
-        });
-      })
+      fetch(request).then(response => {
+        if (!response || response.status !== 200) return response;
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then(c => c.put(request, clone));
+        return response;
+      }).catch(() => caches.match(request))
     );
     return;
   }

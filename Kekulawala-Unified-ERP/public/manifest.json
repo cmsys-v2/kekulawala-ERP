@@ -1,15 +1,22 @@
 {
-  "name": "Kekulawala Unified ERP",
+  "name": "Kekulawala ERP \u00b7 Aurora Command Center",
   "short_name": "K-ERP",
-  "description": "Comprehensive ERP for Kekulawala Advertising — Projects, Finance, HR, Inventory & more",
+  "description": "Kekulawala Advertising unified ERP \u2014 projects, finance, HR, CRM, inventory, procurement, AI document studio",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
   "orientation": "any",
-  "background_color": "#060d1f",
-  "theme_color": "#060d1f",
-  "categories": ["business", "productivity", "finance"],
+  "background_color": "#04070f",
+  "theme_color": "#04070f",
+  "categories": [
+    "business",
+    "productivity",
+    "finance"
+  ],
   "lang": "en-LK",
   "icons": [
     {
@@ -82,19 +89,34 @@
       "name": "Dashboard",
       "short_name": "Home",
       "url": "/?page=dashboard",
-      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "/icons/icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
       "name": "Projects",
       "short_name": "Projects",
       "url": "/?page=projects",
-      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "/icons/icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
       "name": "Finance",
       "short_name": "Finance",
       "url": "/?page=finance",
-      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "/icons/icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
     }
   ],
   "prefer_related_applications": false

@@ -109,18 +109,19 @@ export const FinanceLedgerView = ({ transactions = [], setTransactions, showToas
   };
 
   return (
-    <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+    <div className="page">
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h2 style={{ fontSize: 20, fontWeight: 800, color: '#0f172a', margin: 0 }}>Master Financial Ledger</h2>
-          <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>Full income & expense ledger with P&L analytics and running balance</div>
+          <div className="page-eyebrow">Finance · Double-entry ledger</div>
+          <h1 className="page-title">Master Financial Ledger</h1>
+          <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>Full income & expense ledger with P&L analytics and running balance</div>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
-          <button onClick={() => showToast('Ledger exported!')} style={{ background: '#10b981', color: '#fff', border: 'none', borderRadius: 10, padding: '10px 16px', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
+          <button onClick={() => showToast('Ledger exported!')} className="btn btn-primary">
             <Download size={16} /> Export
           </button>
-          <button onClick={openAdd} style={{ background: '#2563eb', color: '#fff', border: 'none', borderRadius: 10, padding: '10px 18px', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, boxShadow: '0 4px 14px rgba(37,99,235,0.25)' }}>
+          <button onClick={openAdd} className="btn btn-primary">
             <Plus size={18} /> Add Entry
           </button>
         </div>
@@ -131,7 +132,7 @@ export const FinanceLedgerView = ({ transactions = [], setTransactions, showToas
         <StatCard icon={TrendingUp} title="Total Income (YTD)" value={LKR(totalIncome)} sub="All revenue streams" color="#10b981" />
         <StatCard icon={TrendingDown} title="Total Expenses (YTD)" value={LKR(totalExpense)} sub="All cost categories" color="#ef4444" />
         <StatCard icon={DollarSign} title="Net Profit" value={LKR(netProfit)} sub={`Margin: ${margin}%`} color={netProfit >= 0 ? '#2563eb' : '#ef4444'} />
-        <div style={{ background: 'linear-gradient(135deg, #0f172a, #1e293b)', borderRadius: 14, padding: '16px 18px', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div style={{ background: 'linear-gradient(135deg, #061120, #0b1a2e)', borderRadius: 14, padding: '16px 18px', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>Profit Margin</div>
           <div style={{ fontSize: 28, fontWeight: 800, color: margin >= 20 ? '#6ee7b7' : margin >= 10 ? '#fde68a' : '#fca5a5', marginTop: 4 }}>{margin}%</div>
           <div style={{ height: 6, background: 'rgba(255,255,255,0.1)', borderRadius: 99, marginTop: 6 }}>
@@ -141,7 +142,7 @@ export const FinanceLedgerView = ({ transactions = [], setTransactions, showToas
       </div>
 
       {/* Tab Switch */}
-      <div style={{ display: 'flex', gap: 4, background: '#f1f5f9', borderRadius: 10, padding: 4, width: 'fit-content' }}>
+      <div style={{ display: 'flex', gap: 4, background: 'var(--input-bg)', borderRadius: 10, padding: 4, width: 'fit-content' }}>
         {[{ id: 'ledger', label: '📋 Ledger Register' }, { id: 'analytics', label: '📊 P&L Analytics' }].map(t => (
           <button key={t.id} onClick={() => setActiveTab(t.id)}
             style={{ padding: '7px 18px', borderRadius: 8, border: 'none', background: activeTab === t.id ? '#fff' : 'transparent', fontWeight: activeTab === t.id ? 700 : 500, fontSize: 13, cursor: 'pointer', color: activeTab === t.id ? '#2563eb' : '#475569', boxShadow: activeTab === t.id ? '0 1px 4px rgba(0,0,0,0.08)' : 'none', transition: 'all 0.15s' }}>
@@ -155,45 +156,45 @@ export const FinanceLedgerView = ({ transactions = [], setTransactions, showToas
           {/* Filters */}
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
             <div style={{ position: 'relative', flex: 1, minWidth: 220 }}>
-              <Search size={14} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+              <Search size={14} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
               <input placeholder="Search description, category, reference..." value={search} onChange={e => setSearch(e.target.value)}
-                style={{ width: '100%', padding: '8px 8px 8px 32px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 12 }} />
+                style={{ width: '100%', padding: '8px 8px 8px 32px', borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} />
             </div>
             {['all', 'income', 'expense'].map(t => (
               <button key={t} onClick={() => setTypeFilter(t)}
-                style={{ padding: '7px 14px', borderRadius: 8, border: '1px solid', borderColor: typeFilter === t ? (t === 'income' ? '#10b981' : t === 'expense' ? '#ef4444' : '#2563eb') : '#e2e8f0', background: typeFilter === t ? (t === 'income' ? '#10b981' : t === 'expense' ? '#ef4444' : '#2563eb') : '#fff', color: typeFilter === t ? '#fff' : '#475569', fontSize: 11, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', textTransform: 'capitalize' }}>
+                style={{ padding: '7px 14px', borderRadius: 8, border: '1px solid', borderColor: typeFilter === t ? (t === 'income' ? 'rgba(52,211,153,0.5)' : t === 'expense' ? 'rgba(251,113,133,0.5)' : 'rgba(94,234,212,0.45)') : 'var(--card-border)', background: typeFilter === t ? (t === 'income' ? 'rgba(52,211,153,0.18)' : t === 'expense' ? 'rgba(251,113,133,0.18)' : 'rgba(56,189,248,0.16)') : 'transparent', color: typeFilter === t ? '#ffffff' : 'var(--text-secondary)', fontSize: 11, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', textTransform: 'capitalize' }}>
                 {t === 'all' ? `All (${transactions.length})` : `${t} (${transactions.filter(tx => tx.type === t).length})`}
               </button>
             ))}
-            <select value={sectionFilter} onChange={e => setSectionFilter(e.target.value)} style={{ padding: '7px 12px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 12, background: '#fff' }}>
+            <select value={sectionFilter} onChange={e => setSectionFilter(e.target.value)} style={{ padding: '7px 12px', borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12, background: 'var(--card-bg)' }}>
               <option value="all">All Sections</option>
               {SECTIONS.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
             </select>
           </div>
 
           {/* Ledger Table */}
-          <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #e2e8f0', overflow: 'auto' }}>
+          <div style={{ background: 'var(--card-bg)', borderRadius: 14, border: '1px solid var(--card-border)', overflow: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12, minWidth: 800 }}>
               <thead>
-                <tr style={{ background: '#f8fafc', borderBottom: '2px solid #e2e8f0' }}>
-                  <th style={{ textAlign: 'left', padding: '10px 14px', fontWeight: 700, color: '#334155' }}>Date</th>
-                  <th style={{ textAlign: 'left', padding: '10px 12px', fontWeight: 700, color: '#334155' }}>Type</th>
-                  <th style={{ textAlign: 'left', padding: '10px 12px', fontWeight: 700, color: '#334155' }}>Section</th>
-                  <th style={{ textAlign: 'left', padding: '10px 12px', fontWeight: 700, color: '#334155' }}>Category</th>
-                  <th style={{ textAlign: 'left', padding: '10px 12px', fontWeight: 700, color: '#334155' }}>Description</th>
-                  <th style={{ textAlign: 'left', padding: '10px 12px', fontWeight: 700, color: '#334155' }}>Reference</th>
-                  <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: '#334155' }}>Amount</th>
-                  <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: '#334155' }}>Balance</th>
-                  <th style={{ textAlign: 'center', padding: '10px 12px', fontWeight: 700, color: '#334155' }}>Actions</th>
+                <tr style={{ background: 'var(--input-bg)', borderBottom: '2px solid var(--card-border)' }}>
+                  <th style={{ textAlign: 'left', padding: '10px 14px', fontWeight: 700, color: 'var(--text-secondary)' }}>Date</th>
+                  <th style={{ textAlign: 'left', padding: '10px 12px', fontWeight: 700, color: 'var(--text-secondary)' }}>Type</th>
+                  <th style={{ textAlign: 'left', padding: '10px 12px', fontWeight: 700, color: 'var(--text-secondary)' }}>Section</th>
+                  <th style={{ textAlign: 'left', padding: '10px 12px', fontWeight: 700, color: 'var(--text-secondary)' }}>Category</th>
+                  <th style={{ textAlign: 'left', padding: '10px 12px', fontWeight: 700, color: 'var(--text-secondary)' }}>Description</th>
+                  <th style={{ textAlign: 'left', padding: '10px 12px', fontWeight: 700, color: 'var(--text-secondary)' }}>Reference</th>
+                  <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: 'var(--text-secondary)' }}>Amount</th>
+                  <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: 'var(--text-secondary)' }}>Balance</th>
+                  <th style={{ textAlign: 'center', padding: '10px 12px', fontWeight: 700, color: 'var(--text-secondary)' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {ledgerWithBalance.length === 0 && (
-                  <tr><td colSpan={9} style={{ textAlign: 'center', padding: 32, color: '#94a3b8' }}>No transactions found.</td></tr>
+                  <tr><td colSpan={9} style={{ textAlign: 'center', padding: 32, color: 'var(--text-muted)' }}>No transactions found.</td></tr>
                 )}
                 {ledgerWithBalance.map((t, idx) => (
-                  <tr key={t.id} style={{ borderBottom: '1px solid #f1f5f9', background: idx % 2 === 0 ? '#fff' : '#fafafa' }}>
-                    <td style={{ padding: '11px 14px', color: '#64748b', whiteSpace: 'nowrap' }}>{t.date}</td>
+                  <tr key={t.id} style={{ borderBottom: '1px solid var(--card-border)', background: idx % 2 === 0 ? 'transparent' : 'var(--table-row-alt)' }}>
+                    <td style={{ padding: '11px 14px', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>{t.date}</td>
                     <td style={{ padding: '11px 12px' }}>
                       <span style={{
                         background: t.type === 'income' ? '#dcfce7' : '#fee2e2',
@@ -201,12 +202,12 @@ export const FinanceLedgerView = ({ transactions = [], setTransactions, showToas
                         fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: 99, textTransform: 'uppercase'
                       }}>{t.type}</span>
                     </td>
-                    <td style={{ padding: '11px 12px', color: '#64748b', textTransform: 'capitalize' }}>{t.section}</td>
-                    <td style={{ padding: '11px 12px', color: '#475569' }}>{t.cat}</td>
-                    <td style={{ padding: '11px 12px', fontWeight: 600, color: '#0f172a', maxWidth: 220 }}>
+                    <td style={{ padding: '11px 12px', color: 'var(--text-muted)', textTransform: 'capitalize' }}>{t.section}</td>
+                    <td style={{ padding: '11px 12px', color: 'var(--text-secondary)' }}>{t.cat}</td>
+                    <td style={{ padding: '11px 12px', fontWeight: 600, color: 'var(--text-primary)', maxWidth: 220 }}>
                       <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.desc}</div>
                     </td>
-                    <td style={{ padding: '11px 12px', color: '#64748b', fontFamily: 'monospace', fontSize: 11 }}>{t.ref}</td>
+                    <td style={{ padding: '11px 12px', color: 'var(--text-muted)', fontFamily: 'monospace', fontSize: 11 }}>{t.ref}</td>
                     <td style={{ padding: '11px 12px', textAlign: 'right', fontFamily: 'monospace', fontWeight: 700, color: t.type === 'income' ? '#10b981' : '#ef4444' }}>
                       {t.type === 'income' ? '+' : '-'}{LKRS(t.amt)}
                     </td>
@@ -215,20 +216,20 @@ export const FinanceLedgerView = ({ transactions = [], setTransactions, showToas
                     </td>
                     <td style={{ padding: '11px 12px', textAlign: 'center' }}>
                       <div style={{ display: 'flex', gap: 5, justifyContent: 'center' }}>
-                        <button onClick={() => openEdit(t)} style={{ border: 'none', background: '#f1f5f9', borderRadius: 7, padding: 6, cursor: 'pointer', display: 'flex' }}><Edit2 size={13} color="#475569" /></button>
-                        <button onClick={() => handleDelete(t.id)} style={{ border: 'none', background: '#fee2e2', borderRadius: 7, padding: 6, cursor: 'pointer', display: 'flex' }}><Trash2 size={13} color="#ef4444" /></button>
+                        <button onClick={() => openEdit(t)} style={{ border: 'none', background: 'var(--input-bg)', borderRadius: 7, padding: 6, cursor: 'pointer', display: 'flex' }}><Edit2 size={13} color="#475569" /></button>
+                        <button onClick={() => handleDelete(t.id)} style={{ border: 'none', background: 'var(--color-danger-bg)', borderRadius: 7, padding: 6, cursor: 'pointer', display: 'flex' }}><Trash2 size={13} color="#ef4444" /></button>
                       </div>
                     </td>
                   </tr>
                 ))}
               </tbody>
               <tfoot>
-                <tr style={{ borderTop: '2px solid #e2e8f0', background: '#f8fafc' }}>
-                  <td colSpan={6} style={{ padding: '12px 14px', fontWeight: 700, fontSize: 13, color: '#0f172a' }}>TOTALS ({filtered.length} entries)</td>
+                <tr style={{ borderTop: '2px solid var(--card-border)', background: 'var(--input-bg)' }}>
+                  <td colSpan={6} style={{ padding: '12px 14px', fontWeight: 700, fontSize: 13, color: 'var(--text-primary)' }}>TOTALS ({filtered.length} entries)</td>
                   <td colSpan={3} style={{ padding: '12px 14px', textAlign: 'right' }}>
-                    <span style={{ color: '#10b981', fontWeight: 800, fontFamily: 'monospace', fontSize: 13 }}>+{LKRS(filtered.filter(t => t.type === 'income').reduce((s, t) => s + Number(t.amt), 0))}</span>
-                    <span style={{ color: '#94a3b8', margin: '0 8px' }}>|</span>
-                    <span style={{ color: '#ef4444', fontWeight: 800, fontFamily: 'monospace', fontSize: 13 }}>-{LKRS(filtered.filter(t => t.type === 'expense').reduce((s, t) => s + Number(t.amt), 0))}</span>
+                    <span style={{ color: 'var(--color-success)', fontWeight: 800, fontFamily: 'monospace', fontSize: 13 }}>+{LKRS(filtered.filter(t => t.type === 'income').reduce((s, t) => s + Number(t.amt), 0))}</span>
+                    <span style={{ color: 'var(--text-muted)', margin: '0 8px' }}>|</span>
+                    <span style={{ color: 'var(--color-danger)', fontWeight: 800, fontFamily: 'monospace', fontSize: 13 }}>-{LKRS(filtered.filter(t => t.type === 'expense').reduce((s, t) => s + Number(t.amt), 0))}</span>
                   </td>
                 </tr>
               </tfoot>
@@ -240,7 +241,7 @@ export const FinanceLedgerView = ({ transactions = [], setTransactions, showToas
       {activeTab === 'analytics' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
           {/* P&L Summary Banner */}
-          <div style={{ background: 'linear-gradient(135deg, #0f172a, #1e293b)', borderRadius: 14, padding: 24, color: '#fff' }}>
+          <div style={{ background: 'linear-gradient(135deg, #061120, #0b1a2e)', borderRadius: 14, padding: 24, color: '#fff' }}>
             <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.5)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 0.5 }}>Profit & Loss Summary (Year to Date)</div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16 }}>
               {[
@@ -260,11 +261,11 @@ export const FinanceLedgerView = ({ transactions = [], setTransactions, showToas
           {/* Charts Grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: 16 }}>
             {/* Monthly Revenue vs Expenses Bar Chart */}
-            <div style={{ background: '#fff', borderRadius: 14, padding: 20, border: '1px solid #e2e8f0' }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 16, color: '#0f172a' }}>Monthly Revenue vs Expenses</h3>
+            <div style={{ background: 'var(--card-bg)', borderRadius: 14, padding: 20, border: '1px solid var(--card-border)' }}>
+              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 16, color: 'var(--text-primary)' }}>Monthly Revenue vs Expenses</h3>
               <ResponsiveContainer width="100%" height={240}>
                 <BarChart data={monthlyData} margin={{ left: -10 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--card-border)" />
                   <XAxis dataKey="month" tick={{ fontSize: 11 }} />
                   <YAxis tick={{ fontSize: 10 }} tickFormatter={v => (v / 1e6).toFixed(1) + 'M'} />
                   <Tooltip formatter={v => LKR(v)} />
@@ -276,10 +277,10 @@ export const FinanceLedgerView = ({ transactions = [], setTransactions, showToas
             </div>
 
             {/* Expense Breakdown Pie Chart */}
-            <div style={{ background: '#fff', borderRadius: 14, padding: 20, border: '1px solid #e2e8f0' }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 16, color: '#0f172a' }}>Expense Breakdown by Category</h3>
+            <div style={{ background: 'var(--card-bg)', borderRadius: 14, padding: 20, border: '1px solid var(--card-border)' }}>
+              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 16, color: 'var(--text-primary)' }}>Expense Breakdown by Category</h3>
               {expenseByCat.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: 40, color: '#94a3b8' }}>No expense data yet.</div>
+                <div style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)' }}>No expense data yet.</div>
               ) : (
                 <ResponsiveContainer width="100%" height={240}>
                   <PieChart>
@@ -294,17 +295,17 @@ export const FinanceLedgerView = ({ transactions = [], setTransactions, showToas
           </div>
 
           {/* Category Breakdown Table */}
-          <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #e2e8f0', overflow: 'hidden' }}>
-            <div style={{ padding: '14px 18px', borderBottom: '1px solid #e2e8f0' }}>
-              <span style={{ fontSize: 14, fontWeight: 700, color: '#0f172a' }}>Income by Category</span>
+          <div style={{ background: 'var(--card-bg)', borderRadius: 14, border: '1px solid var(--card-border)', overflow: 'hidden' }}>
+            <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--card-border)' }}>
+              <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' }}>Income by Category</span>
             </div>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
               <thead>
-                <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
-                  <th style={{ textAlign: 'left', padding: '10px 14px', fontWeight: 700, color: '#334155' }}>Category</th>
-                  <th style={{ textAlign: 'right', padding: '10px 14px', fontWeight: 700, color: '#334155' }}>Total Amount</th>
-                  <th style={{ textAlign: 'right', padding: '10px 14px', fontWeight: 700, color: '#334155' }}>Entries</th>
-                  <th style={{ textAlign: 'right', padding: '10px 14px', fontWeight: 700, color: '#334155' }}>% of Total</th>
+                <tr style={{ background: 'var(--input-bg)', borderBottom: '1px solid var(--card-border)' }}>
+                  <th style={{ textAlign: 'left', padding: '10px 14px', fontWeight: 700, color: 'var(--text-secondary)' }}>Category</th>
+                  <th style={{ textAlign: 'right', padding: '10px 14px', fontWeight: 700, color: 'var(--text-secondary)' }}>Total Amount</th>
+                  <th style={{ textAlign: 'right', padding: '10px 14px', fontWeight: 700, color: 'var(--text-secondary)' }}>Entries</th>
+                  <th style={{ textAlign: 'right', padding: '10px 14px', fontWeight: 700, color: 'var(--text-secondary)' }}>% of Total</th>
                 </tr>
               </thead>
               <tbody>
@@ -316,16 +317,16 @@ export const FinanceLedgerView = ({ transactions = [], setTransactions, showToas
                     incomeMap[t.cat].count++;
                   });
                   return Object.entries(incomeMap).sort((a, b) => b[1].amt - a[1].amt).map(([cat, d], idx) => (
-                    <tr key={cat} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                    <tr key={cat} style={{ borderBottom: '1px solid var(--card-border)' }}>
                       <td style={{ padding: '10px 14px', fontWeight: 600 }}>{cat}</td>
-                      <td style={{ textAlign: 'right', padding: '10px 14px', fontWeight: 700, color: '#10b981', fontFamily: 'monospace' }}>{LKR(d.amt)}</td>
-                      <td style={{ textAlign: 'right', padding: '10px 14px', color: '#64748b' }}>{d.count}</td>
+                      <td style={{ textAlign: 'right', padding: '10px 14px', fontWeight: 700, color: 'var(--color-success)', fontFamily: 'monospace' }}>{LKR(d.amt)}</td>
+                      <td style={{ textAlign: 'right', padding: '10px 14px', color: 'var(--text-muted)' }}>{d.count}</td>
                       <td style={{ textAlign: 'right', padding: '10px 14px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'flex-end' }}>
-                          <div style={{ width: 60, height: 6, background: '#f1f5f9', borderRadius: 99 }}>
-                            <div style={{ height: 6, background: '#10b981', borderRadius: 99, width: `${totalIncome ? (d.amt / totalIncome * 100) : 0}%` }} />
+                          <div style={{ width: 60, height: 6, background: 'var(--input-bg)', borderRadius: 99 }}>
+                            <div style={{ height: 6, background: 'var(--btn-primary)', borderRadius: 99, width: `${totalIncome ? (d.amt / totalIncome * 100) : 0}%` }} />
                           </div>
-                          <span style={{ color: '#64748b', fontSize: 11 }}>{totalIncome ? (d.amt / totalIncome * 100).toFixed(1) : 0}%</span>
+                          <span style={{ color: 'var(--text-muted)', fontSize: 11 }}>{totalIncome ? (d.amt / totalIncome * 100).toFixed(1) : 0}%</span>
                         </div>
                       </td>
                     </tr>
@@ -342,39 +343,39 @@ export const FinanceLedgerView = ({ transactions = [], setTransactions, showToas
         <Modal title={editId ? 'Edit Transaction' : 'Add Financial Entry'} onClose={() => setShowModal(false)} w={580}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <FormField label="Date">
-              <input type="date" value={form.date} onChange={e => setForm({ ...form, date: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} />
+              <input type="date" value={form.date} onChange={e => setForm({ ...form, date: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} />
             </FormField>
             <FormField label="Transaction Type">
-              <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value, cat: e.target.value === 'income' ? 'Advance Payment' : 'Material Purchase' })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }}>
+              <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value, cat: e.target.value === 'income' ? 'Advance Payment' : 'Material Purchase' })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }}>
                 <option value="income">Income</option>
                 <option value="expense">Expense</option>
               </select>
             </FormField>
             <FormField label="Section">
-              <select value={form.section} onChange={e => setForm({ ...form, section: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }}>
+              <select value={form.section} onChange={e => setForm({ ...form, section: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }}>
                 {SECTIONS.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
               </select>
             </FormField>
             <FormField label="Category">
-              <select value={form.cat} onChange={e => setForm({ ...form, cat: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }}>
+              <select value={form.cat} onChange={e => setForm({ ...form, cat: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }}>
                 {(form.type === 'income' ? INCOME_CATS : EXPENSE_CATS).map(c => <option key={c}>{c}</option>)}
               </select>
             </FormField>
             <FormField label="Amount (LKR)" req>
-              <input type="number" value={form.amt} onChange={e => setForm({ ...form, amt: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} placeholder="250000" />
+              <input type="number" value={form.amt} onChange={e => setForm({ ...form, amt: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} placeholder="250000" />
             </FormField>
             <FormField label="Reference Number">
-              <input value={form.ref || ''} onChange={e => setForm({ ...form, ref: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} placeholder="REC-2025-001" />
+              <input value={form.ref || ''} onChange={e => setForm({ ...form, ref: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} placeholder="REC-2025-001" />
             </FormField>
           </div>
           <FormField label="Description" req>
-            <input value={form.desc} onChange={e => setForm({ ...form, desc: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} placeholder="Arpico Advance Payment - QT-2025-001" />
+            <input value={form.desc} onChange={e => setForm({ ...form, desc: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} placeholder="Arpico Advance Payment - QT-2025-001" />
           </FormField>
           <FormField label="Notes">
-            <textarea value={form.notes || ''} onChange={e => setForm({ ...form, notes: e.target.value })} rows={2} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12, resize: 'vertical' }} />
+            <textarea value={form.notes || ''} onChange={e => setForm({ ...form, notes: e.target.value })} rows={2} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12, resize: 'vertical' }} />
           </FormField>
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 6 }}>
-            <button onClick={() => setShowModal(false)} style={{ padding: '9px 18px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
+            <button onClick={() => setShowModal(false)} style={{ padding: '9px 18px', borderRadius: 8, border: '1px solid var(--card-border)', background: 'var(--card-bg)', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
             <button onClick={handleSave} style={{ padding: '9px 20px', borderRadius: 8, border: 'none', background: form.type === 'income' ? '#10b981' : '#ef4444', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer' }}>
               {editId ? 'Save Changes' : `Add ${form.type === 'income' ? 'Income' : 'Expense'}`}
             </button>

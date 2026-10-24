@@ -4,7 +4,7 @@ import {
   TrendingDown, BarChart2, DollarSign, Layers, ArrowUpRight,
   Search, Filter, RefreshCw, Edit2, Trash2, ArrowDown
 } from 'lucide-react';
-import { Badge, FormField, Modal, StatCard, EmptyState } from '../components/CommonUI';
+import { Badge, FormField, Modal, StatCard, EmptyState, PageHeader } from '../components/CommonUI';
 
 const GRADES = [
   "Sheets", "Paint", "Steel", "Lights", "Electrical",
@@ -13,18 +13,18 @@ const GRADES = [
 ];
 
 const GRADE_COLORS = {
-  "Sheets":               { bg: 'rgba(59,130,246,0.1)',  color: '#2563eb' },
-  "Paint":                { bg: 'rgba(168,85,247,0.1)',  color: '#9333ea' },
-  "Steel":                { bg: 'rgba(100,116,139,0.1)', color: '#475569' },
-  "Lights":               { bg: 'rgba(245,158,11,0.1)',  color: '#d97706' },
-  "Electrical":           { bg: 'rgba(239,68,68,0.1)',   color: '#dc2626' },
-  "Electronics & Circuits":{ bg: 'rgba(6,182,212,0.1)',  color: '#0891b2' },
-  "Spare Parts":          { bg: 'rgba(234,179,8,0.1)',   color: '#ca8a04' },
-  "Timber":               { bg: 'rgba(34,197,94,0.1)',   color: '#16a34a' },
-  "Oil & Lubricants":     { bg: 'rgba(249,115,22,0.1)',  color: '#ea580c' },
-  "General":              { bg: 'rgba(99,102,241,0.1)',  color: '#4f46e5' },
-  "BMS":                  { bg: 'rgba(20,184,166,0.1)',  color: '#0d9488' },
-  "Miscellaneous":        { bg: 'rgba(156,163,175,0.1)', color: '#6b7280' },
+  "Sheets":               { bg: 'rgba(56,189,248,0.14)',  color: '#7dd3fc' },
+  "Paint":                { bg: 'rgba(196,181,253,0.14)', color: '#c4b5fd' },
+  "Steel":                { bg: 'rgba(148,163,184,0.14)', color: '#cbd5e1' },
+  "Lights":               { bg: 'rgba(251,191,36,0.14)',  color: '#fbbf24' },
+  "Electrical":           { bg: 'rgba(251,113,133,0.14)', color: '#fb7185' },
+  "Electronics & Circuits":{ bg: 'rgba(34,211,238,0.14)', color: '#22d3ee' },
+  "Spare Parts":          { bg: 'rgba(250,204,21,0.14)',  color: '#facc15' },
+  "Timber":               { bg: 'rgba(74,222,128,0.14)',  color: '#4ade80' },
+  "Oil & Lubricants":     { bg: 'rgba(251,146,60,0.14)',  color: '#fb923c' },
+  "General":              { bg: 'rgba(129,140,248,0.14)', color: '#a5b4fc' },
+  "BMS":                  { bg: 'rgba(45,212,191,0.14)',  color: '#2dd4bf' },
+  "Miscellaneous":        { bg: 'rgba(156,163,175,0.14)', color: '#cbd5e1' },
 };
 
 const LKR = (n) => 'LKR ' + Number(n).toLocaleString('en-LK', { minimumFractionDigits: 0 });
@@ -256,7 +256,20 @@ export const InventoryView = ({ materials = [], setMaterials, showToast }) => {
     : null;
 
   return (
-    <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div className="page">
+
+      <PageHeader
+        eyebrow="Supply chain · 12-grade inventory"
+        icon={Package}
+        title="Material"
+        highlight="Intelligence"
+        subtitle="Every sheet, light and steel profile — graded, valued and watched for reorder thresholds in real time."
+        actions={
+          <button className="btn btn-primary" onClick={() => setShowAddModal(true)}>
+            <Plus size={15} /> Add material
+          </button>
+        }
+      />
 
       {/* ── Dashboard Infographic ────────────────────────── */}
       <InventoryDashboard materials={materials} />

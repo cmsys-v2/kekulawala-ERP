@@ -55,21 +55,22 @@ export const SupplierDirectoryView = ({ suppliers = [], setSuppliers, showToast 
   const avgRating = suppliers.length ? (suppliers.reduce((s, sup) => s + (sup.rating || 0), 0) / suppliers.length).toFixed(1) : '—';
 
   const RELIABILITY_COLORS = {
-    excellent: ['#dcfce7', '#166534'],
-    good: ['#dbeafe', '#1e40af'],
-    average: ['#fef3c7', '#92400e'],
-    poor: ['#fee2e2', '#991b1b'],
+    excellent: ['var(--color-success-bg)', 'var(--color-success)'],
+    good: ['var(--color-info-bg)', 'var(--accent-sky)'],
+    average: ['var(--color-warning-bg)', 'var(--color-warning)'],
+    poor: ['var(--color-danger-bg)', 'var(--color-danger)'],
   };
 
   return (
-    <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+    <div className="page">
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h2 style={{ fontSize: 20, fontWeight: 800, color: '#0f172a', margin: 0 }}>Supplier Directory</h2>
-          <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>Vendor management — contacts, categories, ratings & payment terms</div>
+          <div className="page-eyebrow">Supply chain · Vendors</div>
+          <h1 className="page-title">Supplier Directory</h1>
+          <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>Vendor management — contacts, categories, ratings & payment terms</div>
         </div>
-        <button onClick={openAdd} style={{ background: '#2563eb', color: '#fff', border: 'none', borderRadius: 10, padding: '10px 18px', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, boxShadow: '0 4px 14px rgba(37,99,235,0.25)' }}>
+        <button onClick={openAdd} className="btn btn-primary">
           <Plus size={18} /> Add Supplier
         </button>
       </div>
@@ -84,11 +85,11 @@ export const SupplierDirectoryView = ({ suppliers = [], setSuppliers, showToast 
       {/* Filters */}
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
         <div style={{ position: 'relative', flex: 1, minWidth: 220 }}>
-          <Search size={14} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+          <Search size={14} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
           <input placeholder="Search suppliers, city, contact..." value={search} onChange={e => setSearch(e.target.value)}
-            style={{ width: '100%', padding: '8px 8px 8px 32px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 12 }} />
+            style={{ width: '100%', padding: '8px 8px 8px 32px', borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} />
         </div>
-        <select value={catFilter} onChange={e => setCatFilter(e.target.value)} style={{ padding: '8px 12px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 12, background: '#fff' }}>
+        <select value={catFilter} onChange={e => setCatFilter(e.target.value)} style={{ padding: '8px 12px', borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12, background: 'var(--card-bg)' }}>
           <option value="all">All Categories</option>
           {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
         </select>
@@ -97,28 +98,28 @@ export const SupplierDirectoryView = ({ suppliers = [], setSuppliers, showToast 
       {/* Supplier Cards Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 14 }}>
         {filtered.length === 0 && (
-          <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: 40, color: '#94a3b8', background: '#fff', borderRadius: 14, border: '1px solid #e2e8f0' }}>
+          <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: 40, color: 'var(--text-muted)', background: 'var(--card-bg)', borderRadius: 14, border: '1px solid var(--card-border)' }}>
             No suppliers found. Add your first supplier!
           </div>
         )}
         {filtered.map(s => {
-          const [relBg, relColor] = RELIABILITY_COLORS[s.reliability] || ['#f1f5f9', '#64748b'];
+          const [relBg, relColor] = RELIABILITY_COLORS[s.reliability] || ['var(--input-bg)', 'var(--text-muted)'];
           return (
-            <div key={s.id} style={{ background: '#fff', borderRadius: 14, border: '1px solid #e2e8f0', padding: 18, boxShadow: '0 1px 4px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div key={s.id} style={{ background: 'var(--card-bg)', borderRadius: 14, border: '1px solid var(--card-border)', padding: 18, boxShadow: '0 1px 4px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', gap: 10 }}>
               {/* Top Row */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                  <div style={{ width: 42, height: 42, borderRadius: 10, background: 'linear-gradient(135deg, #2563eb22, #8b5cf622)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 800, color: '#2563eb', border: '1px solid #e2e8f0' }}>
+                  <div style={{ width: 42, height: 42, borderRadius: 10, background: 'linear-gradient(135deg, #2563eb22, #7c3aed22)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 800, color: 'var(--accent-sky)', border: '1px solid var(--card-border)' }}>
                     {s.name.charAt(0)}
                   </div>
                   <div>
-                    <div style={{ fontWeight: 700, color: '#0f172a', fontSize: 14 }}>{s.name}</div>
-                    <div style={{ fontSize: 11, color: '#64748b' }}>{s.city}</div>
+                    <div style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: 14 }}>{s.name}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{s.city}</div>
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: 5 }}>
-                  <button onClick={() => openEdit(s)} style={{ border: 'none', background: '#f1f5f9', borderRadius: 8, padding: 6, cursor: 'pointer', display: 'flex' }}><Edit2 size={13} color="#475569" /></button>
-                  <button onClick={() => handleDelete(s.id, s.name)} style={{ border: 'none', background: '#fee2e2', borderRadius: 8, padding: 6, cursor: 'pointer', display: 'flex' }}><Trash2 size={13} color="#ef4444" /></button>
+                  <button onClick={() => openEdit(s)} style={{ border: 'none', background: 'var(--input-bg)', borderRadius: 8, padding: 6, cursor: 'pointer', display: 'flex' }}><Edit2 size={13} color="#475569" /></button>
+                  <button onClick={() => handleDelete(s.id, s.name)} style={{ border: 'none', background: 'var(--color-danger-bg)', borderRadius: 8, padding: 6, cursor: 'pointer', display: 'flex' }}><Trash2 size={13} color="#ef4444" /></button>
                 </div>
               </div>
 
@@ -134,20 +135,20 @@ export const SupplierDirectoryView = ({ suppliers = [], setSuppliers, showToast 
               {(s.categories || []).length > 0 && (
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                   {s.categories.map(c => (
-                    <span key={c} style={{ background: '#f0f9ff', color: '#0369a1', fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 99, border: '1px solid #bae6fd' }}>{c}</span>
+                    <span key={c} style={{ background: 'var(--color-info-bg)', color: 'var(--color-info)', fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 99, border: '1px solid rgba(56,189,248,0.22)' }}>{c}</span>
                   ))}
                 </div>
               )}
 
               {/* Contact Info */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                <div style={{ fontSize: 12, color: '#334155', display: 'flex', alignItems: 'center', gap: 6 }}><Phone size={13} color="#2563eb" />{s.phone}</div>
-                <div style={{ fontSize: 12, color: '#334155', display: 'flex', alignItems: 'center', gap: 6 }}><Mail size={13} color="#8b5cf6" />{s.email}</div>
-                {s.address && <div style={{ fontSize: 12, color: '#64748b', display: 'flex', alignItems: 'center', gap: 6 }}><MapPin size={13} color="#ef4444" />{s.address}</div>}
+                <div style={{ fontSize: 12, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: 6 }}><Phone size={13} color="#2563eb" />{s.phone}</div>
+                <div style={{ fontSize: 12, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: 6 }}><Mail size={13} color="#8b5cf6" />{s.email}</div>
+                {s.address && <div style={{ fontSize: 12, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 6 }}><MapPin size={13} color="#ef4444" />{s.address}</div>}
               </div>
 
               {/* Payment Terms */}
-              <div style={{ fontSize: 12, color: '#475569', background: '#f8fafc', padding: '6px 10px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
+              <div style={{ fontSize: 12, color: 'var(--text-secondary)', background: 'var(--input-bg)', padding: '6px 10px', borderRadius: 6, border: '1px solid var(--card-border)' }}>
                 💳 Payment Terms: <strong>{s.payTerms || 'N/A'}</strong>
               </div>
 
@@ -155,12 +156,12 @@ export const SupplierDirectoryView = ({ suppliers = [], setSuppliers, showToast 
               <div style={{ display: 'flex', gap: 6 }}>
                 {s.whatsapp && (
                   <a href={`https://wa.me/${s.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer"
-                    style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, padding: '7px 10px', borderRadius: 8, background: '#dcfce7', color: '#166534', fontSize: 12, fontWeight: 600, textDecoration: 'none', border: '1px solid #bbf7d0' }}>
+                    style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, padding: '7px 10px', borderRadius: 8, background: 'var(--color-success-bg)', color: 'var(--color-success)', fontSize: 12, fontWeight: 600, textDecoration: 'none', border: '1px solid #bbf7d0' }}>
                     <MessageCircle size={14} /> WhatsApp
                   </a>
                 )}
                 <a href={`mailto:${s.email}`}
-                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, padding: '7px 10px', borderRadius: 8, background: '#dbeafe', color: '#1e40af', fontSize: 12, fontWeight: 600, textDecoration: 'none', border: '1px solid #bfdbfe' }}>
+                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, padding: '7px 10px', borderRadius: 8, background: 'var(--color-info-bg)', color: 'var(--accent-sky)', fontSize: 12, fontWeight: 600, textDecoration: 'none', border: '1px solid rgba(56,189,248,0.28)' }}>
                   <Mail size={14} /> Email
                 </a>
               </div>
@@ -174,40 +175,40 @@ export const SupplierDirectoryView = ({ suppliers = [], setSuppliers, showToast 
         <Modal title={editId ? 'Edit Supplier' : 'Add New Supplier'} onClose={() => setShowModal(false)} w={640}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <FormField label="Supplier / Company Name" req>
-              <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} />
+              <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} />
             </FormField>
             <FormField label="Contact Person">
-              <input value={form.contact} onChange={e => setForm({ ...form, contact: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} />
+              <input value={form.contact} onChange={e => setForm({ ...form, contact: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} />
             </FormField>
             <FormField label="Phone Number">
-              <input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} placeholder="011 2456789" />
+              <input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} placeholder="011 2456789" />
             </FormField>
             <FormField label="WhatsApp Number">
-              <input value={form.whatsapp} onChange={e => setForm({ ...form, whatsapp: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} placeholder="+94771234567" />
+              <input value={form.whatsapp} onChange={e => setForm({ ...form, whatsapp: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} placeholder="+94771234567" />
             </FormField>
             <FormField label="Email Address">
-              <input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} />
+              <input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} />
             </FormField>
             <FormField label="City">
-              <input value={form.city} onChange={e => setForm({ ...form, city: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} placeholder="Colombo" />
+              <input value={form.city} onChange={e => setForm({ ...form, city: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} placeholder="Colombo" />
             </FormField>
             <FormField label="Payment Terms">
-              <input value={form.payTerms} onChange={e => setForm({ ...form, payTerms: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} placeholder="30 days credit / Cash" />
+              <input value={form.payTerms} onChange={e => setForm({ ...form, payTerms: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} placeholder="30 days credit / Cash" />
             </FormField>
             <FormField label="Reliability">
-              <select value={form.reliability} onChange={e => setForm({ ...form, reliability: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }}>
+              <select value={form.reliability} onChange={e => setForm({ ...form, reliability: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }}>
                 {RELIABILITIES.map(r => <option key={r} value={r}>{r.charAt(0).toUpperCase() + r.slice(1)}</option>)}
               </select>
             </FormField>
             <FormField label="Rating (1-5)">
-              <input type="number" min={1} max={5} step={0.1} value={form.rating} onChange={e => setForm({ ...form, rating: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} />
+              <input type="number" min={1} max={5} step={0.1} value={form.rating} onChange={e => setForm({ ...form, rating: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} />
             </FormField>
             <FormField label="Tax / VAT Number">
-              <input value={form.taxNo || ''} onChange={e => setForm({ ...form, taxNo: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} />
+              <input value={form.taxNo || ''} onChange={e => setForm({ ...form, taxNo: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} />
             </FormField>
           </div>
           <FormField label="Address">
-            <input value={form.address} onChange={e => setForm({ ...form, address: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} />
+            <input value={form.address} onChange={e => setForm({ ...form, address: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} />
           </FormField>
           <FormField label="Supply Categories">
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 4 }}>
@@ -220,11 +221,11 @@ export const SupplierDirectoryView = ({ suppliers = [], setSuppliers, showToast 
             </div>
           </FormField>
           <FormField label="Notes">
-            <textarea value={form.notes || ''} onChange={e => setForm({ ...form, notes: e.target.value })} rows={2} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12, resize: 'vertical' }} />
+            <textarea value={form.notes || ''} onChange={e => setForm({ ...form, notes: e.target.value })} rows={2} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12, resize: 'vertical' }} />
           </FormField>
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 6 }}>
-            <button onClick={() => setShowModal(false)} style={{ padding: '9px 18px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
-            <button onClick={handleSave} style={{ padding: '9px 20px', borderRadius: 8, border: 'none', background: '#2563eb', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer' }}>
+            <button onClick={() => setShowModal(false)} style={{ padding: '9px 18px', borderRadius: 8, border: '1px solid var(--card-border)', background: 'var(--card-bg)', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
+            <button onClick={handleSave} style={{ padding: '9px 20px', borderRadius: 8, border: 'none', background: 'var(--btn-primary)', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer' }}>
               {editId ? 'Save Changes' : 'Add Supplier'}
             </button>
           </div>

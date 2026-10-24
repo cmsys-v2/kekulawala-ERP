@@ -66,34 +66,19 @@ export const LegalAdvisorView = () => {
   const grossPay = salaryInput + otPayment;
 
   return (
-    <div className="animate-fade-in" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    <div className="page">
       {/* Header Banner */}
-      <div
-        style={{
-          background: "linear-gradient(135deg, #0f172a, #1e293b)",
-          borderRadius: 16,
-          padding: "24px 28px",
-          color: "#ffffff",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center"
-        }}
-      >
+      <div className="page-head">
         <div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <Scale size={26} color="#38bdf8" />
-            <h2 style={{ fontSize: 20, fontWeight: 800, margin: 0, letterSpacing: -0.5 }}>
-              Sri Lanka Commercial & Industrial Legal Advisory Suite
-            </h2>
-          </div>
-          <div style={{ fontSize: 13, color: "#94a3b8", marginTop: 6, maxWidth: 680 }}>
-            Statutory Legal Knowledge Base covering Labor Laws, EPF/ETF Regulations, IRD Tax Rules (VAT 18%, SSCL 2.5%), CIDA Construction Standards, and AI Contract Risk Scoring.
+          <div className="page-eyebrow">Compliance · Sri Lanka</div>
+          <h1 className="page-title">Commercial &amp; <span className="gradient-text">Legal Advisory</span></h1>
+          <div className="page-sub">
+            Labour law, EPF/ETF, IRD tax (VAT 18% · SSCL 2.5%), CIDA construction standards and AI contract risk scoring.
           </div>
         </div>
-
-        <div style={{ textAlign: "right", background: "rgba(255,255,255,0.06)", padding: "10px 16px", borderRadius: 12, border: "1px solid rgba(255,255,255,0.1)" }}>
-          <div style={{ fontSize: 11, color: "#38bdf8", fontWeight: 700 }}>LEGAL COMPLIANCE ENGINE</div>
-          <div style={{ fontSize: 13, fontWeight: 700, marginTop: 2 }}>Dem. Soc. Rep. of Sri Lanka</div>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <span className="pill pill-accent"><Scale size={10} /> Compliance engine</span>
+          <span className="pill">Dem. Soc. Rep. of Sri Lanka</span>
         </div>
       </div>
 
@@ -114,7 +99,7 @@ export const LegalAdvisorView = () => {
                   width: "100%",
                   padding: "9px 12px 9px 36px",
                   borderRadius: 10,
-                  border: "1px solid #cbd5e1",
+                  border: "1px solid var(--card-border)",
                   fontSize: 12,
                   outline: "none",
                   boxSizing: "border-box"
@@ -130,9 +115,9 @@ export const LegalAdvisorView = () => {
                     padding: "7px 14px",
                     borderRadius: 8,
                     border: "1px solid",
-                    borderColor: selectedCat === cat.id ? "#2563eb" : "#cbd5e1",
-                    background: selectedCat === cat.id ? "#2563eb" : "#ffffff",
-                    color: selectedCat === cat.id ? "#ffffff" : "#475569",
+                    borderColor: selectedCat === cat.id ? "rgba(94,234,212,0.45)" : "var(--card-border)",
+                    background: selectedCat === cat.id ? "rgba(56,189,248,0.16)" : "transparent",
+                    color: selectedCat === cat.id ? "#ffffff" : "var(--text-secondary)",
                     fontSize: 11,
                     fontWeight: 600,
                     cursor: "pointer",
@@ -154,22 +139,22 @@ export const LegalAdvisorView = () => {
                   key={act.id}
                   onClick={() => setActiveAct(act)}
                   style={{
-                    background: "#ffffff",
+                    background: "var(--card-bg)",
                     borderRadius: 14,
                     padding: 18,
-                    border: `1.5px solid ${isSel ? "#2563eb" : "#e2e8f0"}`,
+                    border: `1.5px solid ${isSel ? "rgba(94,234,212,0.5)" : "var(--card-border)"}`,
                     cursor: "pointer",
                     boxShadow: "0 2px 6px rgba(0,0,0,0.02)",
                     transition: "all 0.15s ease"
                   }}
                 >
-                  <div style={{ fontSize: 11, fontWeight: 700, color: "#2563eb", textTransform: "uppercase", marginBottom: 4 }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "var(--accent-sky)", textTransform: "uppercase", marginBottom: 4 }}>
                     {act.authority}
                   </div>
-                  <h3 style={{ fontSize: 14, fontWeight: 700, color: "#0f172a", marginBottom: 6, lineHeight: 1.4 }}>
+                  <h3 style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)", marginBottom: 6, lineHeight: 1.4 }}>
                     {act.title}
                   </h3>
-                  <div style={{ fontSize: 12, color: "#64748b", lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                  <div style={{ fontSize: 12, color: "var(--text-muted)", lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
                     {act.summary}
                   </div>
                 </div>
@@ -179,25 +164,25 @@ export const LegalAdvisorView = () => {
 
           {/* Detailed Act Viewer */}
           {activeAct && (
-            <div style={{ background: "#ffffff", borderRadius: 14, padding: 22, border: "1px solid #e2e8f0" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#2563eb", fontSize: 12, fontWeight: 700, marginBottom: 4 }}>
+            <div style={{ background: "var(--card-bg)", borderRadius: 14, padding: 22, border: "1px solid var(--card-border)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, color: "var(--accent-sky)", fontSize: 12, fontWeight: 700, marginBottom: 4 }}>
                 <BookOpen size={16} /> {activeAct.authority}
               </div>
-              <h2 style={{ fontSize: 18, fontWeight: 800, color: "#0f172a", marginBottom: 8 }}>
+              <h2 style={{ fontSize: 18, fontWeight: 800, color: "var(--text-primary)", marginBottom: 8 }}>
                 {activeAct.title}
               </h2>
-              <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.6, marginBottom: 16 }}>
+              <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.6, marginBottom: 16 }}>
                 {activeAct.summary}
               </p>
 
-              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#0f172a", marginBottom: 10 }}>
+              <h4 style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 10 }}>
                 Key Statutory Clauses & Obligations:
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {activeAct.keyClauses.map((clause, idx) => (
-                  <div key={idx} style={{ display: "flex", gap: 10, alignItems: "flex-start", background: "#f8fafc", padding: "10px 14px", borderRadius: 8, border: "1px solid #e2e8f0" }}>
+                  <div key={idx} style={{ display: "flex", gap: 10, alignItems: "flex-start", background: "var(--input-bg)", padding: "10px 14px", borderRadius: 8, border: "1px solid var(--card-border)" }}>
                     <CheckCircle2 size={16} color="#10b981" style={{ flexShrink: 0, marginTop: 2 }} />
-                    <span style={{ fontSize: 12, color: "#1e293b", lineHeight: 1.5 }}>{clause}</span>
+                    <span style={{ fontSize: 12, color: "var(--text-primary)", lineHeight: 1.5 }}>{clause}</span>
                   </div>
                 ))}
               </div>
@@ -208,14 +193,14 @@ export const LegalAdvisorView = () => {
         {/* Right Sidebar: AI Contract Auditor & Statutory Calculator */}
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {/* AI Contract Risk Checker */}
-          <div style={{ background: "#ffffff", borderRadius: 14, padding: 18, border: "1px solid #e2e8f0" }}>
+          <div style={{ background: "var(--card-bg)", borderRadius: 14, padding: 18, border: "1px solid var(--card-border)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
               <FileCheck size={18} color="#2563eb" />
-              <h3 style={{ fontSize: 14, fontWeight: 700, color: "#0f172a", margin: 0 }}>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)", margin: 0 }}>
                 Contract Risk Auditor
               </h3>
             </div>
-            <div style={{ fontSize: 11, color: "#64748b", marginBottom: 10 }}>
+            <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 10 }}>
               Paste draft contract text below to audit against Sri Lankan commercial & labor laws.
             </div>
             <textarea
@@ -227,7 +212,7 @@ export const LegalAdvisorView = () => {
                 width: "100%",
                 padding: 10,
                 borderRadius: 8,
-                border: "1px solid #cbd5e1",
+                border: "1px solid var(--card-border)",
                 fontSize: 11,
                 outline: "none",
                 boxSizing: "border-box",
@@ -239,7 +224,7 @@ export const LegalAdvisorView = () => {
               style={{
                 width: "100%",
                 marginTop: 10,
-                background: "#0f172a",
+                background: "var(--card-bg-solid)",
                 color: "#ffffff",
                 border: "none",
                 borderRadius: 8,
@@ -253,9 +238,9 @@ export const LegalAdvisorView = () => {
             </button>
 
             {auditResult && (
-              <div style={{ marginTop: 14, padding: 12, borderRadius: 10, background: auditResult.score >= 80 ? "#ecfdf5" : "#fffbebfb", border: `1px solid ${auditResult.score >= 80 ? "#10b981" : "#f59e0b"}` }}>
+              <div style={{ marginTop: 14, padding: 12, borderRadius: 10, background: auditResult.score >= 80 ? "var(--color-success-bg)" : "var(--color-warning-bg)", border: `1px solid ${auditResult.score >= 80 ? "#10b981" : "#f59e0b"}` }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                  <span style={{ fontSize: 12, fontWeight: 700, color: "#0f172a" }}>Legal Risk Score:</span>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: "var(--text-primary)" }}>Legal Risk Score:</span>
                   <span style={{ fontSize: 14, fontWeight: 800, color: auditResult.score >= 80 ? "#10b981" : "#d97706" }}>
                     {auditResult.score} / 100 ({auditResult.status})
                   </span>
@@ -271,34 +256,34 @@ export const LegalAdvisorView = () => {
           </div>
 
           {/* Statutory EPF/ETF & Overtime Calculator */}
-          <div style={{ background: "#ffffff", borderRadius: 14, padding: 18, border: "1px solid #e2e8f0" }}>
+          <div style={{ background: "var(--card-bg)", borderRadius: 14, padding: 18, border: "1px solid var(--card-border)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
               <Calculator size={18} color="#10b981" />
-              <h3 style={{ fontSize: 14, fontWeight: 700, color: "#0f172a", margin: 0 }}>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)", margin: 0 }}>
                 Statutory EPF/ETF & OT Calculator
               </h3>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 600, color: "#475569" }}>Monthly Basic Salary (LKR)</label>
+                <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-secondary)" }}>Monthly Basic Salary (LKR)</label>
                 <input
                   type="number"
                   value={salaryInput}
                   onChange={(e) => setSalaryInput(Number(e.target.value))}
-                  style={{ width: "100%", padding: 7, borderRadius: 6, border: "1px solid #cbd5e1", fontSize: 12, marginTop: 2, boxSizing: "border-box" }}
+                  style={{ width: "100%", padding: 7, borderRadius: 6, border: "1px solid var(--card-border)", fontSize: 12, marginTop: 2, boxSizing: "border-box" }}
                 />
               </div>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 600, color: "#475569" }}>Overtime Hours Worked</label>
+                <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-secondary)" }}>Overtime Hours Worked</label>
                 <input
                   type="number"
                   value={otHoursInput}
                   onChange={(e) => setOtHoursInput(Number(e.target.value))}
-                  style={{ width: "100%", padding: 7, borderRadius: 6, border: "1px solid #cbd5e1", fontSize: 12, marginTop: 2, boxSizing: "border-box" }}
+                  style={{ width: "100%", padding: 7, borderRadius: 6, border: "1px solid var(--card-border)", fontSize: 12, marginTop: 2, boxSizing: "border-box" }}
                 />
               </div>
 
-              <div style={{ background: "#f8fafc", padding: 12, borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 11, display: "flex", flexDirection: "column", gap: 6, marginTop: 4 }}>
+              <div style={{ background: "var(--input-bg)", padding: 12, borderRadius: 8, border: "1px solid var(--card-border)", fontSize: 11, display: "flex", flexDirection: "column", gap: 6, marginTop: 4 }}>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <span>Employer EPF (12%):</span>
                   <strong>LKR {epfEmployer.toLocaleString('en-LK')}</strong>
@@ -311,11 +296,11 @@ export const LegalAdvisorView = () => {
                   <span>Employee EPF (8%):</span>
                   <strong>LKR {epfEmployee.toLocaleString('en-LK')}</strong>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between", color: "#2563eb" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", color: "var(--accent-sky)" }}>
                   <span>OT Rate (1.5x):</span>
                   <strong>LKR {otPayment.toLocaleString('en-LK')} ({otHoursInput} hrs)</strong>
                 </div>
-                <div style={{ borderTop: "1px solid #cbd5e1", pt: 4, display: "flex", justifyContent: "space-between", fontSize: 12, fontWeight: 700, color: "#0f172a" }}>
+                <div style={{ borderTop: "1px solid var(--card-border)", pt: 4, display: "flex", justifyContent: "space-between", fontSize: 12, fontWeight: 700, color: "var(--text-primary)" }}>
                   <span>Gross Remuneration:</span>
                   <strong>LKR {grossPay.toLocaleString('en-LK')}</strong>
                 </div>

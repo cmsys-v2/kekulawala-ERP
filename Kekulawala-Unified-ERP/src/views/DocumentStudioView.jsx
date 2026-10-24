@@ -486,12 +486,13 @@ export const DocumentStudioView = ({
   };
 
   return (
-    <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div className="page">
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
+      <div className="page-head">
         <div>
-          <h2 className="section-title">Enterprise Letter & Agreement Studio</h2>
-          <div className="section-sub">8 automated generators · Custom letterheads · Print area control</div>
+          <div className="page-eyebrow">Creative studio · Documents</div>
+          <h1 className="page-title">Letter &amp; <span className="gradient-text">Agreement Studio</span></h1>
+          <div className="page-sub">Eight automated generators · custom letterheads · pixel-perfect A4 print control.</div>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
           <button onClick={() => setShowLHPanel(!showLHPanel)} className="btn btn-secondary" style={{ fontSize: 12 }}>
@@ -504,12 +505,7 @@ export const DocumentStudioView = ({
       </div>
 
       {/* Main 3-column workspace */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: showLHPanel ? '240px 1fr 260px' : '240px 1fr',
-        gap: 14,
-        alignItems: 'start',
-      }}>
+      <div className={`studio-grid ${showLHPanel ? '' : 'no-panel'}`}>
 
         {/* ── Col 1: Document List ─────────────────────── */}
         <div className="card" style={{ padding: 14, display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 'calc(100vh - 180px)', overflowY: 'auto' }}>

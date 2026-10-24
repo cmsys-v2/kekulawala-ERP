@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="ocean-dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
     <!-- ─── Primary SEO ─────────────────────────────────── -->
-    <title>Kekulawala Unified ERP v5.0</title>
-    <meta name="description" content="Comprehensive ERP for Kekulawala Advertising — Projects, Finance, HR, CRM, Inventory & Procurement" />
+    <title>Kekulawala ERP · Aurora Command Center</title>
+    <meta name="description" content="Kekulawala Advertising Unified ERP — Projects, Finance, HR, CRM, Inventory, Procurement & AI Document Studio" />
     <meta name="author" content="Kekulawala Advertising (Pvt) Ltd" />
     <meta name="keywords" content="ERP, advertising, Sri Lanka, projects, HR, payroll, finance" />
 
@@ -39,8 +39,8 @@
     <link rel="apple-touch-startup-image" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" href="/icons/icon-512x512.png" />
 
     <!-- ─── Theme & Chrome ──────────────────────────────── -->
-    <meta name="theme-color" content="#060d1f" />
-    <meta name="msapplication-TileColor" content="#060d1f" />
+    <meta name="theme-color" content="#04070f" />
+    <meta name="msapplication-TileColor" content="#04070f" />
     <meta name="msapplication-TileImage" content="/icons/icon-144x144.png" />
 
     <!-- ─── Open Graph ──────────────────────────────────── -->
@@ -56,23 +56,74 @@
     <!-- ─── Fonts ───────────────────────────────────────── -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 
     <!-- ─── Inline Critical CSS for instant background ──── -->
     <style>
-      html, body, #root { margin: 0; padding: 0; background: #060d1f; }
+      html, body, #root { margin: 0; padding: 0; background: #04070f; }
       body { overflow: hidden; }
-      /* Prevent FOUC */
-      #root:empty::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background: #060d1f;
-        z-index: 9999;
+
+      /* ── Boot splash ─────────────────────────────────── */
+      #boot {
+        position: fixed; inset: 0; z-index: 9998;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+        background:
+          radial-gradient(60% 50% at 20% 10%, rgba(34,211,238,0.18), transparent 65%),
+          radial-gradient(55% 45% at 85% 20%, rgba(59,130,246,0.20), transparent 65%),
+          radial-gradient(60% 50% at 60% 100%, rgba(16,185,129,0.16), transparent 65%),
+          #04070f;
+        transition: opacity .55s ease, visibility .55s ease;
       }
+      #boot.done { opacity: 0; visibility: hidden; }
+      .boot-mark {
+        position: relative; width: 84px; height: 84px; border-radius: 26px; overflow: hidden;
+        box-shadow: 0 24px 60px -18px rgba(34,211,238,0.65), 0 0 0 1px rgba(255,255,255,0.12);
+        animation: bootFloat 3.4s ease-in-out infinite;
+      }
+      .boot-mark img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .boot-ring {
+        position: absolute; inset: -26px; border-radius: 50%;
+        border: 1px solid rgba(125,211,252,0.28);
+        animation: bootPulse 2.6s ease-out infinite;
+      }
+      .boot-ring.r2 { inset: -48px; animation-delay: .7s; border-color: rgba(16,185,129,0.22); }
+      .boot-name {
+        font-family: 'Sora', 'Inter', sans-serif; font-size: 13px; font-weight: 800;
+        letter-spacing: .42em; color: #eaf6ff; text-transform: uppercase;
+        text-indent: .42em;
+      }
+      .boot-sub {
+        font-family: 'Inter', sans-serif; font-size: 9px; font-weight: 700;
+        letter-spacing: .28em; color: rgba(125,211,252,.6); text-transform: uppercase;
+        margin-top: -14px;
+      }
+      .boot-bar {
+        width: 168px; height: 2px; border-radius: 99px; overflow: hidden;
+        background: rgba(255,255,255,0.08); margin-top: 6px;
+      }
+      .boot-bar i {
+        display: block; height: 100%; width: 45%; border-radius: 99px;
+        background: linear-gradient(90deg, #22d3ee, #2563eb, #10b981);
+        animation: bootSlide 1.25s cubic-bezier(.65,0,.35,1) infinite;
+      }
+      @keyframes bootSlide { 0% { transform: translateX(-110%); } 100% { transform: translateX(320%); } }
+      @keyframes bootPulse { 0% { transform: scale(.85); opacity: .85; } 100% { transform: scale(1.25); opacity: 0; } }
+      @keyframes bootFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+      /* Boot splash handles FOUC (see #boot) */
     </style>
   </head>
   <body>
+    <div id="boot">
+      <div class="boot-mark">
+        <span class="boot-ring"></span>
+        <span class="boot-ring r2"></span>
+        <img src="/brand/app-icon.jpg" alt="Kekulawala" />
+      </div>
+      <div class="boot-name">Kekulawala</div>
+      <div class="boot-sub">Aurora Command · ERP v6</div>
+      <div class="boot-bar"><i></i></div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
 

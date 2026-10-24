@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import { HeaderSidebar } from './components/HeaderSidebar';
+import { AuroraBackdrop } from './components/Aurora';
 import { Toast } from './components/CommonUI';
 
 import {
@@ -230,7 +231,7 @@ function ERPApp() {
 
   // Close sidebar overlay when resizing to desktop
   useEffect(() => {
-    const handler = () => { if (window.innerWidth >= 768) setMobileOpen(false); };
+    const handler = () => { if (window.innerWidth >= 1024) setMobileOpen(false); };
     window.addEventListener('resize', handler);
     return () => window.removeEventListener('resize', handler);
   }, []);
@@ -261,6 +262,9 @@ function ERPApp() {
 
   return (
     <div className="erp-shell">
+      {/* Living aurora light behind the glass workspace */}
+      <AuroraBackdrop />
+
       {/* Toast Notification */}
       {toast && <Toast msg={toast.m} type={toast.t} onClose={() => setToast(null)} />}
 

@@ -65,10 +65,10 @@ export const PayrollView = ({ employees = [], showToast }) => {
   })();
 
   const PrintSlip = ({ emp, ps }) => (
-    <div style={{ fontFamily: 'Arial, sans-serif', padding: 32, color: '#0f172a', maxWidth: 600 }}>
+    <div style={{ fontFamily: 'Arial, sans-serif', padding: 32, color: 'var(--text-primary)', maxWidth: 600 }}>
       <div style={{ textAlign: 'center', borderBottom: '2px solid #0f172a', paddingBottom: 12, marginBottom: 16 }}>
         <div style={{ fontSize: 20, fontWeight: 800 }}>KEKULAWALA ENTERPRISES (PVT) LTD</div>
-        <div style={{ fontSize: 12, color: '#64748b' }}>No. 142/A, Kandy Road, Kurunegala, Sri Lanka</div>
+        <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>No. 142/A, Kandy Road, Kurunegala, Sri Lanka</div>
         <div style={{ fontSize: 14, fontWeight: 700, marginTop: 8 }}>SALARY SLIP — {payMonth_disp}</div>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, fontSize: 12, marginBottom: 16 }}>
@@ -81,11 +81,11 @@ export const PayrollView = ({ employees = [], showToast }) => {
       </div>
       <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
         <thead>
-          <tr style={{ background: '#f1f5f9' }}>
-            <th style={{ textAlign: 'left', padding: '8px 10px', borderBottom: '1px solid #e2e8f0' }}>Earnings</th>
-            <th style={{ textAlign: 'right', padding: '8px 10px', borderBottom: '1px solid #e2e8f0' }}>Amount (LKR)</th>
-            <th style={{ textAlign: 'left', padding: '8px 10px', borderBottom: '1px solid #e2e8f0', paddingLeft: 20 }}>Deductions</th>
-            <th style={{ textAlign: 'right', padding: '8px 10px', borderBottom: '1px solid #e2e8f0' }}>Amount (LKR)</th>
+          <tr style={{ background: 'var(--input-bg)' }}>
+            <th style={{ textAlign: 'left', padding: '8px 10px', borderBottom: '1px solid var(--card-border)' }}>Earnings</th>
+            <th style={{ textAlign: 'right', padding: '8px 10px', borderBottom: '1px solid var(--card-border)' }}>Amount (LKR)</th>
+            <th style={{ textAlign: 'left', padding: '8px 10px', borderBottom: '1px solid var(--card-border)', paddingLeft: 20 }}>Deductions</th>
+            <th style={{ textAlign: 'right', padding: '8px 10px', borderBottom: '1px solid var(--card-border)' }}>Amount (LKR)</th>
           </tr>
         </thead>
         <tbody>
@@ -94,7 +94,7 @@ export const PayrollView = ({ employees = [], showToast }) => {
             [['OT Pay (1.5x)', ps.otPay], ['APIT Tax', ps.apitMonthly]],
             [['Allowances', ps.allowances], ['Other Deductions', ps.otherDeductions]],
           ].map((row, i) => (
-            <tr key={i} style={{ borderBottom: '1px solid #f1f5f9' }}>
+            <tr key={i} style={{ borderBottom: '1px solid var(--card-border)' }}>
               {row.map(([label, val], j) => (<>
                 <td key={`l${j}`} style={{ padding: '6px 10px', ...(j === 1 ? { paddingLeft: 20 } : {}) }}>{label}</td>
                 <td key={`v${j}`} style={{ padding: '6px 10px', textAlign: 'right', fontFamily: 'monospace' }}>{Number(val).toLocaleString()}</td>
@@ -105,20 +105,20 @@ export const PayrollView = ({ employees = [], showToast }) => {
         <tfoot>
           <tr style={{ borderTop: '2px solid #0f172a', fontWeight: 700 }}>
             <td style={{ padding: '10px 10px' }}>GROSS SALARY</td>
-            <td style={{ padding: '10px 10px', textAlign: 'right', color: '#2563eb', fontFamily: 'monospace' }}>{Number(ps.grossSalary).toLocaleString()}</td>
+            <td style={{ padding: '10px 10px', textAlign: 'right', color: 'var(--accent-sky)', fontFamily: 'monospace' }}>{Number(ps.grossSalary).toLocaleString()}</td>
             <td style={{ padding: '10px 10px', paddingLeft: 20 }}>TOTAL DEDUCTIONS</td>
-            <td style={{ padding: '10px 10px', textAlign: 'right', color: '#ef4444', fontFamily: 'monospace' }}>{Number(ps.totalDeductions).toLocaleString()}</td>
+            <td style={{ padding: '10px 10px', textAlign: 'right', color: 'var(--color-danger)', fontFamily: 'monospace' }}>{Number(ps.totalDeductions).toLocaleString()}</td>
           </tr>
-          <tr style={{ background: '#0f172a', color: '#fff', fontWeight: 800, fontSize: 14 }}>
+          <tr style={{ background: 'var(--card-bg-solid)', color: '#fff', fontWeight: 800, fontSize: 14 }}>
             <td colSpan={2} style={{ padding: '12px 10px' }}>NET TAKE-HOME SALARY</td>
             <td colSpan={2} style={{ padding: '12px 10px', textAlign: 'right', fontFamily: 'monospace' }}>LKR {Number(ps.netSalary).toLocaleString()}</td>
           </tr>
         </tfoot>
       </table>
-      <div style={{ marginTop: 16, fontSize: 11, color: '#64748b' }}>
+      <div style={{ marginTop: 16, fontSize: 11, color: 'var(--text-muted)' }}>
         <strong>Employer Contributions:</strong> EPF Employer (12%): LKR {Number(ps.epfEr).toLocaleString()} | ETF (3%): LKR {Number(ps.etf).toLocaleString()}
       </div>
-      <div style={{ marginTop: 24, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, borderTop: '1px solid #e2e8f0', paddingTop: 16 }}>
+      <div style={{ marginTop: 24, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, borderTop: '1px solid var(--card-border)', paddingTop: 16 }}>
         <div style={{ fontSize: 11 }}>Employee Signature: ________________</div>
         <div style={{ fontSize: 11, textAlign: 'right' }}>Authorized By: ________________</div>
       </div>
@@ -126,18 +126,19 @@ export const PayrollView = ({ employees = [], showToast }) => {
   );
 
   return (
-    <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+    <div className="page">
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h2 style={{ fontSize: 20, fontWeight: 800, color: '#0f172a', margin: 0 }}>Payroll Calculator</h2>
-          <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>
+          <div className="page-eyebrow">Operations · Statutory payroll</div>
+          <h1 className="page-title">Payroll Calculator</h1>
+          <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
             Sri Lanka compliant payroll — EPF/ETF, APIT tax bands, OT & net salary computation
           </div>
         </div>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <input type="month" value={payMonth} onChange={e => setPayMonth(e.target.value)} style={{ padding: '8px 12px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 12, background: '#fff' }} />
-          <button onClick={() => showToast('Payroll register exported!')} style={{ background: '#10b981', color: '#fff', border: 'none', borderRadius: 10, padding: '10px 16px', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
+          <input type="month" value={payMonth} onChange={e => setPayMonth(e.target.value)} style={{ padding: '8px 12px', borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12, background: 'var(--card-bg)' }} />
+          <button onClick={() => showToast('Payroll register exported!')} className="btn btn-primary">
             <Download size={16} /> Export Payroll
           </button>
         </div>
@@ -152,28 +153,28 @@ export const PayrollView = ({ employees = [], showToast }) => {
       </div>
 
       {/* Payroll Register Table */}
-      <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #e2e8f0', overflow: 'auto' }}>
-        <div style={{ padding: '14px 18px', borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: 8 }}>
+      <div style={{ background: 'var(--card-bg)', borderRadius: 14, border: '1px solid var(--card-border)', overflow: 'auto' }}>
+        <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--card-border)', display: 'flex', alignItems: 'center', gap: 8 }}>
           <Calculator size={18} color="#2563eb" />
-          <span style={{ fontSize: 14, fontWeight: 700, color: '#0f172a' }}>Salary Register — {payMonth_disp}</span>
+          <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' }}>Salary Register — {payMonth_disp}</span>
         </div>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12, minWidth: 1000 }}>
           <thead>
-            <tr style={{ background: '#f8fafc', borderBottom: '2px solid #e2e8f0' }}>
-              <th style={{ textAlign: 'left', padding: '10px 14px', fontWeight: 700, color: '#334155' }}>Employee</th>
-              <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: '#334155' }}>Basic</th>
-              <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: '#334155' }}>OT Pay</th>
-              <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: '#334155' }}>Allowances</th>
-              <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: '#334155' }}>Gross</th>
-              <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: '#334155' }}>EPF (8%)</th>
-              <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: '#334155' }}>APIT</th>
-              <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: '#334155' }}>Net Salary</th>
-              <th style={{ textAlign: 'center', padding: '10px 12px', fontWeight: 700, color: '#334155' }}>Actions</th>
+            <tr style={{ background: 'var(--input-bg)', borderBottom: '2px solid var(--card-border)' }}>
+              <th style={{ textAlign: 'left', padding: '10px 14px', fontWeight: 700, color: 'var(--text-secondary)' }}>Employee</th>
+              <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: 'var(--text-secondary)' }}>Basic</th>
+              <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: 'var(--text-secondary)' }}>OT Pay</th>
+              <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: 'var(--text-secondary)' }}>Allowances</th>
+              <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: 'var(--text-secondary)' }}>Gross</th>
+              <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: 'var(--text-secondary)' }}>EPF (8%)</th>
+              <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: 'var(--text-secondary)' }}>APIT</th>
+              <th style={{ textAlign: 'right', padding: '10px 12px', fontWeight: 700, color: 'var(--text-secondary)' }}>Net Salary</th>
+              <th style={{ textAlign: 'center', padding: '10px 12px', fontWeight: 700, color: 'var(--text-secondary)' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {activeEmployees.length === 0 && (
-              <tr><td colSpan={9} style={{ textAlign: 'center', padding: 32, color: '#94a3b8' }}>No employees. Add employees in Workforce & Pools first.</td></tr>
+              <tr><td colSpan={9} style={{ textAlign: 'center', padding: 32, color: 'var(--text-muted)' }}>No employees. Add employees in Workforce & Pools first.</td></tr>
             )}
             {activeEmployees.map((emp, idx) => {
               const ps = calcPayslip(emp);
@@ -181,52 +182,52 @@ export const PayrollView = ({ employees = [], showToast }) => {
               const isExpanded = expandedId === emp.id;
               return (
                 <React.Fragment key={emp.id}>
-                  <tr style={{ borderBottom: '1px solid #f1f5f9', background: idx % 2 === 0 ? '#fff' : '#fafafa' }}>
+                  <tr style={{ borderBottom: '1px solid var(--card-border)', background: idx % 2 === 0 ? 'transparent' : 'var(--table-row-alt)' }}>
                     <td style={{ padding: '12px 14px' }}>
-                      <div style={{ fontWeight: 700, color: '#0f172a' }}>{emp.name}</div>
-                      <div style={{ fontSize: 11, color: '#64748b' }}>{emp.code} · {emp.desg}</div>
+                      <div style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{emp.name}</div>
+                      <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{emp.code} · {emp.desg}</div>
                     </td>
-                    <td style={{ textAlign: 'right', padding: '12px 12px', fontFamily: 'monospace', color: '#334155' }}>{Number(ps.basic).toLocaleString()}</td>
+                    <td style={{ textAlign: 'right', padding: '12px 12px', fontFamily: 'monospace', color: 'var(--text-secondary)' }}>{Number(ps.basic).toLocaleString()}</td>
                     <td style={{ textAlign: 'right', padding: '12px 12px', fontFamily: 'monospace', color: ps.otPay > 0 ? '#10b981' : '#94a3b8' }}>{Number(ps.otPay).toLocaleString()}</td>
                     <td style={{ textAlign: 'right', padding: '12px 12px', fontFamily: 'monospace', color: ps.allowances > 0 ? '#8b5cf6' : '#94a3b8' }}>{Number(ps.allowances).toLocaleString()}</td>
-                    <td style={{ textAlign: 'right', padding: '12px 12px', fontFamily: 'monospace', fontWeight: 700, color: '#2563eb' }}>{Number(ps.grossSalary).toLocaleString()}</td>
-                    <td style={{ textAlign: 'right', padding: '12px 12px', fontFamily: 'monospace', color: '#ef4444' }}>{Number(ps.epfEmp).toLocaleString()}</td>
-                    <td style={{ textAlign: 'right', padding: '12px 12px', fontFamily: 'monospace', color: '#ef4444' }}>{Number(ps.apitMonthly).toLocaleString()}</td>
-                    <td style={{ textAlign: 'right', padding: '12px 12px', fontFamily: 'monospace', fontWeight: 800, color: '#10b981' }}>{Number(ps.netSalary).toLocaleString()}</td>
+                    <td style={{ textAlign: 'right', padding: '12px 12px', fontFamily: 'monospace', fontWeight: 700, color: 'var(--accent-sky)' }}>{Number(ps.grossSalary).toLocaleString()}</td>
+                    <td style={{ textAlign: 'right', padding: '12px 12px', fontFamily: 'monospace', color: 'var(--color-danger)' }}>{Number(ps.epfEmp).toLocaleString()}</td>
+                    <td style={{ textAlign: 'right', padding: '12px 12px', fontFamily: 'monospace', color: 'var(--color-danger)' }}>{Number(ps.apitMonthly).toLocaleString()}</td>
+                    <td style={{ textAlign: 'right', padding: '12px 12px', fontFamily: 'monospace', fontWeight: 800, color: 'var(--color-success)' }}>{Number(ps.netSalary).toLocaleString()}</td>
                     <td style={{ textAlign: 'center', padding: '12px 12px' }}>
                       <div style={{ display: 'flex', gap: 6, justifyContent: 'center' }}>
-                        <button onClick={() => setExpandedId(isExpanded ? null : emp.id)} style={{ border: '1px solid #e2e8f0', background: '#fff', borderRadius: 8, padding: 6, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontSize: 11 }}>
+                        <button onClick={() => setExpandedId(isExpanded ? null : emp.id)} style={{ border: '1px solid var(--card-border)', background: 'var(--card-bg)', borderRadius: 8, padding: 6, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontSize: 11 }}>
                           {isExpanded ? <ChevronUp size={13} /> : <ChevronDown size={13} />} OT/Adj
                         </button>
-                        <button onClick={() => setShowSlip({ emp, ps })} style={{ border: 'none', background: '#2563eb', color: '#fff', borderRadius: 8, padding: '6px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, fontWeight: 600 }}>
+                        <button onClick={() => setShowSlip({ emp, ps })} style={{ border: 'none', background: 'var(--btn-primary)', color: '#fff', borderRadius: 8, padding: '6px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, fontWeight: 600 }}>
                           <Printer size={13} /> Slip
                         </button>
                       </div>
                     </td>
                   </tr>
                   {isExpanded && (
-                    <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+                    <tr style={{ background: 'var(--input-bg)', borderBottom: '1px solid var(--card-border)' }}>
                       <td colSpan={9} style={{ padding: '12px 14px' }}>
                         <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                            <label style={{ fontSize: 12, fontWeight: 600, color: '#334155' }}>OT Hours:</label>
+                            <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)' }}>OT Hours:</label>
                             <input type="number" min={0} max={200} value={ot.otHours || 0} onChange={e => setOT(emp.id, 'otHours', e.target.value)}
-                              style={{ width: 70, padding: '5px 8px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 12 }} />
-                            <span style={{ fontSize: 11, color: '#64748b' }}>hrs @ 1.5x</span>
+                              style={{ width: 70, padding: '5px 8px', borderRadius: 6, border: '1px solid var(--card-border)', fontSize: 12 }} />
+                            <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>hrs @ 1.5x</span>
                           </div>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                            <label style={{ fontSize: 12, fontWeight: 600, color: '#334155' }}>Allowances (LKR):</label>
+                            <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)' }}>Allowances (LKR):</label>
                             <input type="number" min={0} value={ot.allowances || 0} onChange={e => setOT(emp.id, 'allowances', e.target.value)}
-                              style={{ width: 100, padding: '5px 8px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 12 }} />
+                              style={{ width: 100, padding: '5px 8px', borderRadius: 6, border: '1px solid var(--card-border)', fontSize: 12 }} />
                           </div>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                            <label style={{ fontSize: 12, fontWeight: 600, color: '#334155' }}>Extra Deductions (LKR):</label>
+                            <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)' }}>Extra Deductions (LKR):</label>
                             <input type="number" min={0} value={ot.deductions || 0} onChange={e => setOT(emp.id, 'deductions', e.target.value)}
-                              style={{ width: 100, padding: '5px 8px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 12 }} />
+                              style={{ width: 100, padding: '5px 8px', borderRadius: 6, border: '1px solid var(--card-border)', fontSize: 12 }} />
                           </div>
-                          <div style={{ fontSize: 12, color: '#475569', background: '#fff', padding: '6px 12px', borderRadius: 8, border: '1px solid #e2e8f0' }}>
-                            EPF Employer: <strong style={{ color: '#8b5cf6' }}>LKR {Number(ps.epfEr).toLocaleString()}</strong> &nbsp;|&nbsp;
-                            ETF: <strong style={{ color: '#06b6d4' }}>LKR {Number(ps.etf).toLocaleString()}</strong>
+                          <div style={{ fontSize: 12, color: 'var(--text-secondary)', background: 'var(--card-bg)', padding: '6px 12px', borderRadius: 8, border: '1px solid var(--card-border)' }}>
+                            EPF Employer: <strong style={{ color: 'var(--color-purple)' }}>LKR {Number(ps.epfEr).toLocaleString()}</strong> &nbsp;|&nbsp;
+                            ETF: <strong style={{ color: 'var(--color-info)' }}>LKR {Number(ps.etf).toLocaleString()}</strong>
                           </div>
                         </div>
                       </td>
@@ -238,7 +239,7 @@ export const PayrollView = ({ employees = [], showToast }) => {
           </tbody>
           {activeEmployees.length > 0 && (
             <tfoot>
-              <tr style={{ background: '#0f172a', color: '#fff', fontWeight: 700 }}>
+              <tr style={{ background: 'var(--card-bg-solid)', color: '#fff', fontWeight: 700 }}>
                 <td style={{ padding: '12px 14px', fontSize: 13 }}>TOTALS</td>
                 <td style={{ textAlign: 'right', padding: '12px 12px', fontFamily: 'monospace' }}>{Number(activeEmployees.reduce((s, e) => s + calcPayslip(e).basic, 0)).toLocaleString()}</td>
                 <td style={{ textAlign: 'right', padding: '12px 12px', fontFamily: 'monospace' }}>{Number(activeEmployees.reduce((s, e) => s + calcPayslip(e).otPay, 0)).toLocaleString()}</td>
@@ -258,9 +259,9 @@ export const PayrollView = ({ employees = [], showToast }) => {
       {showSlip && (
         <Modal title={`Payslip — ${showSlip.emp.name}`} onClose={() => setShowSlip(null)} w={640}>
           <PrintSlip emp={showSlip.emp} ps={showSlip.ps} />
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 12, borderTop: '1px solid #e2e8f0', paddingTop: 12 }}>
-            <button onClick={() => setShowSlip(null)} style={{ padding: '9px 18px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', fontSize: 13, cursor: 'pointer' }}>Close</button>
-            <button onClick={() => window.print()} style={{ padding: '9px 20px', borderRadius: 8, border: 'none', background: '#2563eb', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 12, borderTop: '1px solid var(--card-border)', paddingTop: 12 }}>
+            <button onClick={() => setShowSlip(null)} style={{ padding: '9px 18px', borderRadius: 8, border: '1px solid var(--card-border)', background: 'var(--card-bg)', fontSize: 13, cursor: 'pointer' }}>Close</button>
+            <button onClick={() => window.print()} style={{ padding: '9px 20px', borderRadius: 8, border: 'none', background: 'var(--btn-primary)', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
               <Printer size={16} /> Print Payslip
             </button>
           </div>

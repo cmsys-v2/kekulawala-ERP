@@ -8,11 +8,11 @@ import { subscribeCollection, saveAttendanceEntry } from '../services/firebaseSe
 
 const DAYS_OF_WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const STATUS_CONFIG = {
-  present: { label: 'P', bg: '#dcfce7', color: '#166534', fullLabel: 'Present' },
-  absent: { label: 'A', bg: '#fee2e2', color: '#991b1b', fullLabel: 'Absent' },
-  halfday: { label: 'H', bg: '#fef3c7', color: '#92400e', fullLabel: 'Half Day' },
-  leave: { label: 'L', bg: '#ede9fe', color: '#5b21b6', fullLabel: 'Leave' },
-  '': { label: '-', bg: '#f1f5f9', color: '#94a3b8', fullLabel: '-' },
+  present: { label: 'P', bg: 'var(--color-success-bg)', color: 'var(--color-success)', fullLabel: 'Present' },
+  absent: { label: 'A', bg: 'var(--color-danger-bg)', color: 'var(--color-danger)', fullLabel: 'Absent' },
+  halfday: { label: 'H', bg: 'var(--color-warning-bg)', color: 'var(--color-warning)', fullLabel: 'Half Day' },
+  leave: { label: 'L', bg: 'var(--color-purple-bg)', color: 'var(--color-purple)', fullLabel: 'Leave' },
+  '': { label: '-', bg: 'var(--input-bg)', color: 'var(--text-muted)', fullLabel: '-' },
 };
 
 const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
@@ -84,14 +84,15 @@ export const AttendanceView = ({ employees = [], showToast }) => {
   for (let d = 1; d <= daysInMonth; d++) calendarCells.push(d);
 
   return (
-    <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+    <div className="page">
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h2 style={{ fontSize: 20, fontWeight: 800, color: '#0f172a', margin: 0 }}>Attendance Tracking</h2>
-          <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>Monthly attendance register — click cells to cycle status (P/A/H/L)</div>
+          <div className="page-eyebrow">Operations · Time</div>
+          <h1 className="page-title">Attendance Tracking</h1>
+          <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>Monthly attendance register — click cells to cycle status (P/A/H/L)</div>
         </div>
-        <button onClick={() => showToast('Attendance report exported!')} style={{ background: '#10b981', color: '#fff', border: 'none', borderRadius: 10, padding: '10px 18px', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
+        <button onClick={() => showToast('Attendance report exported!')} className="btn btn-primary">
           <Download size={16} /> Export Register
         </button>
       </div>
@@ -106,9 +107,9 @@ export const AttendanceView = ({ employees = [], showToast }) => {
 
       {/* Month Navigator */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        <button onClick={prevMonth} style={{ border: '1px solid #e2e8f0', background: '#fff', borderRadius: 8, padding: 8, cursor: 'pointer', display: 'flex', alignItems: 'center' }}><ChevronLeft size={16} /></button>
-        <span style={{ fontSize: 16, fontWeight: 700, color: '#0f172a', minWidth: 160, textAlign: 'center' }}>{monthName}</span>
-        <button onClick={nextMonth} style={{ border: '1px solid #e2e8f0', background: '#fff', borderRadius: 8, padding: 8, cursor: 'pointer', display: 'flex', alignItems: 'center' }}><ChevronRight size={16} /></button>
+        <button onClick={prevMonth} style={{ border: '1px solid var(--card-border)', background: 'var(--card-bg)', borderRadius: 8, padding: 8, cursor: 'pointer', display: 'flex', alignItems: 'center' }}><ChevronLeft size={16} /></button>
+        <span style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-primary)', minWidth: 160, textAlign: 'center' }}>{monthName}</span>
+        <button onClick={nextMonth} style={{ border: '1px solid var(--card-border)', background: 'var(--card-bg)', borderRadius: 8, padding: 8, cursor: 'pointer', display: 'flex', alignItems: 'center' }}><ChevronRight size={16} /></button>
         {/* Legend */}
         <div style={{ display: 'flex', gap: 8, marginLeft: 16, flexWrap: 'wrap' }}>
           {Object.entries(STATUS_CONFIG).filter(([k]) => k !== '').map(([k, v]) => (
@@ -118,11 +119,11 @@ export const AttendanceView = ({ employees = [], showToast }) => {
       </div>
 
       {/* Attendance Grid Table */}
-      <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #e2e8f0', overflow: 'auto' }}>
+      <div style={{ background: 'var(--card-bg)', borderRadius: 14, border: '1px solid var(--card-border)', overflow: 'auto' }}>
         <table style={{ borderCollapse: 'collapse', fontSize: 11, minWidth: 900 }}>
           <thead>
-            <tr style={{ background: '#f8fafc', borderBottom: '2px solid #e2e8f0' }}>
-              <th style={{ textAlign: 'left', padding: '10px 14px', fontWeight: 700, color: '#334155', minWidth: 160, position: 'sticky', left: 0, background: '#f8fafc', zIndex: 2 }}>Employee</th>
+            <tr style={{ background: 'var(--input-bg)', borderBottom: '2px solid var(--card-border)' }}>
+              <th style={{ textAlign: 'left', padding: '10px 14px', fontWeight: 700, color: 'var(--text-secondary)', minWidth: 160, position: 'sticky', left: 0, background: 'var(--input-bg)', zIndex: 2 }}>Employee</th>
               {Array.from({ length: daysInMonth }, (_, i) => {
                 const d = i + 1;
                 const dow = new Date(year, month, d).getDay();
@@ -134,23 +135,23 @@ export const AttendanceView = ({ employees = [], showToast }) => {
                   </th>
                 );
               })}
-              <th style={{ padding: '10px 14px', fontWeight: 700, color: '#334155', minWidth: 80, textAlign: 'center' }}>P</th>
-              <th style={{ padding: '10px 14px', fontWeight: 700, color: '#334155', minWidth: 80, textAlign: 'center' }}>A</th>
-              <th style={{ padding: '10px 14px', fontWeight: 700, color: '#334155', minWidth: 80, textAlign: 'center' }}>H</th>
-              <th style={{ padding: '10px 14px', fontWeight: 700, color: '#334155', minWidth: 80, textAlign: 'center' }}>L</th>
+              <th style={{ padding: '10px 14px', fontWeight: 700, color: 'var(--text-secondary)', minWidth: 80, textAlign: 'center' }}>P</th>
+              <th style={{ padding: '10px 14px', fontWeight: 700, color: 'var(--text-secondary)', minWidth: 80, textAlign: 'center' }}>A</th>
+              <th style={{ padding: '10px 14px', fontWeight: 700, color: 'var(--text-secondary)', minWidth: 80, textAlign: 'center' }}>H</th>
+              <th style={{ padding: '10px 14px', fontWeight: 700, color: 'var(--text-secondary)', minWidth: 80, textAlign: 'center' }}>L</th>
             </tr>
           </thead>
           <tbody>
             {activeEmployees.length === 0 && (
-              <tr><td colSpan={daysInMonth + 5} style={{ textAlign: 'center', padding: 32, color: '#94a3b8' }}>No employees added yet. Go to Workforce & Pools to add employees.</td></tr>
+              <tr><td colSpan={daysInMonth + 5} style={{ textAlign: 'center', padding: 32, color: 'var(--text-muted)' }}>No employees added yet. Go to Workforce & Pools to add employees.</td></tr>
             )}
             {activeEmployees.map((emp, idx) => {
               const summary = getEmpSummary(emp.id);
               return (
-                <tr key={emp.id} style={{ borderBottom: '1px solid #f1f5f9', background: idx % 2 === 0 ? '#fff' : '#fafafa' }}>
-                  <td style={{ padding: '10px 14px', fontWeight: 600, color: '#0f172a', position: 'sticky', left: 0, background: idx % 2 === 0 ? '#fff' : '#fafafa', zIndex: 1, borderRight: '1px solid #e2e8f0' }}>
+                <tr key={emp.id} style={{ borderBottom: '1px solid var(--card-border)', background: idx % 2 === 0 ? 'transparent' : 'var(--table-row-alt)' }}>
+                  <td style={{ padding: '10px 14px', fontWeight: 600, color: 'var(--text-primary)', position: 'sticky', left: 0, background: idx % 2 === 0 ? 'transparent' : 'var(--table-row-alt)', zIndex: 1, borderRight: '1px solid var(--card-border)' }}>
                     <div>{emp.name}</div>
-                    <div style={{ fontSize: 10, color: '#64748b' }}>{emp.desg}</div>
+                    <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>{emp.desg}</div>
                   </td>
                   {Array.from({ length: daysInMonth }, (_, i) => {
                     const d = i + 1;
@@ -165,8 +166,8 @@ export const AttendanceView = ({ employees = [], showToast }) => {
                           title={isWeekend ? 'Weekend' : cfg.fullLabel}
                           style={{
                             width: 28, height: 28, borderRadius: 6, border: 'none', cursor: isWeekend ? 'default' : 'pointer',
-                            background: isWeekend ? '#f1f5f9' : cfg.bg,
-                            color: isWeekend ? '#cbd5e1' : cfg.color,
+                            background: isWeekend ? 'var(--input-bg)' : cfg.bg,
+                            color: isWeekend ? 'var(--text-muted)' : cfg.color,
                             fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto',
                             transition: 'all 0.1s'
                           }}
@@ -176,10 +177,10 @@ export const AttendanceView = ({ employees = [], showToast }) => {
                       </td>
                     );
                   })}
-                  <td style={{ textAlign: 'center', padding: '10px 6px', fontWeight: 700, color: '#166534' }}>{summary.present}</td>
-                  <td style={{ textAlign: 'center', padding: '10px 6px', fontWeight: 700, color: '#991b1b' }}>{summary.absent}</td>
-                  <td style={{ textAlign: 'center', padding: '10px 6px', fontWeight: 700, color: '#92400e' }}>{summary.halfday}</td>
-                  <td style={{ textAlign: 'center', padding: '10px 6px', fontWeight: 700, color: '#5b21b6' }}>{summary.leave}</td>
+                  <td style={{ textAlign: 'center', padding: '10px 6px', fontWeight: 700, color: 'var(--color-success)' }}>{summary.present}</td>
+                  <td style={{ textAlign: 'center', padding: '10px 6px', fontWeight: 700, color: 'var(--color-danger)' }}>{summary.absent}</td>
+                  <td style={{ textAlign: 'center', padding: '10px 6px', fontWeight: 700, color: 'var(--color-warning)' }}>{summary.halfday}</td>
+                  <td style={{ textAlign: 'center', padding: '10px 6px', fontWeight: 700, color: 'var(--color-purple)' }}>{summary.leave}</td>
                 </tr>
               );
             })}

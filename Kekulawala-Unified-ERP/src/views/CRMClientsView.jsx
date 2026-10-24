@@ -8,9 +8,9 @@ import { Badge, Modal, FormField, StatCard, StarRating } from '../components/Com
 const LKR = (n) => 'LKR ' + Number(n || 0).toLocaleString('en-LK', { minimumFractionDigits: 0 });
 
 const LOYALTY_COLORS = {
-  high: { bg: '#dcfce7', text: '#166534', label: 'High Value' },
-  medium: { bg: '#fef3c7', text: '#92400e', label: 'Medium' },
-  low: { bg: '#fee2e2', text: '#991b1b', label: 'Low' },
+  high: { bg: 'var(--color-success-bg)', text: 'var(--color-success)', label: 'High Value' },
+  medium: { bg: 'var(--color-warning-bg)', text: 'var(--color-warning)', label: 'Medium' },
+  low: { bg: 'var(--color-danger-bg)', text: 'var(--color-danger)', label: 'Low' },
 };
 
 const EMPTY_FORM = {
@@ -60,16 +60,17 @@ export const CRMClientsView = ({ clients = [], setClients, projects = [], showTo
   const highValue = clients.filter(c => c.loyalty === 'high').length;
 
   return (
-    <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+    <div className="page">
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h2 style={{ fontSize: 20, fontWeight: 800, color: '#0f172a', margin: 0 }}>CRM & Clients</h2>
-          <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>
+          <div className="page-eyebrow">Operations · Relationships</div>
+          <h1 className="page-title">CRM & Clients</h1>
+          <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
             Client relationship management — contacts, loyalty tiers & revenue history
           </div>
         </div>
-        <button onClick={openAdd} style={{ background: '#2563eb', color: '#fff', border: 'none', borderRadius: 10, padding: '10px 18px', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, boxShadow: '0 4px 14px rgba(37,99,235,0.25)' }}>
+        <button onClick={openAdd} className="btn btn-primary">
           <Plus size={18} /> Add Client
         </button>
       </div>
@@ -84,16 +85,16 @@ export const CRMClientsView = ({ clients = [], setClients, projects = [], showTo
       {/* Filters */}
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
         <div style={{ position: 'relative', flex: 1, minWidth: 220 }}>
-          <Search size={14} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+          <Search size={14} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
           <input
             placeholder="Search clients, companies, contacts..."
             value={search} onChange={e => setSearch(e.target.value)}
-            style={{ width: '100%', padding: '8px 8px 8px 32px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 12, background: '#fff' }}
+            style={{ width: '100%', padding: '8px 8px 8px 32px', borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12, background: 'var(--card-bg)' }}
           />
         </div>
         {['all', 'high', 'medium', 'low'].map(tier => (
           <button key={tier} onClick={() => setLoyaltyFilter(tier)}
-            style={{ padding: '7px 14px', borderRadius: 8, border: '1px solid', borderColor: loyaltyFilter === tier ? '#2563eb' : '#e2e8f0', background: loyaltyFilter === tier ? '#2563eb' : '#fff', color: loyaltyFilter === tier ? '#fff' : '#475569', fontSize: 11, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+            style={{ padding: '7px 14px', borderRadius: 8, border: '1px solid', borderColor: loyaltyFilter === tier ? 'rgba(94,234,212,0.45)' : 'var(--card-border)', background: loyaltyFilter === tier ? 'rgba(56,189,248,0.16)' : 'transparent', color: loyaltyFilter === tier ? '#ffffff' : 'var(--text-secondary)', fontSize: 11, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>
             {tier === 'all' ? `All (${clients.length})` : `${LOYALTY_COLORS[tier].label} (${clients.filter(c => c.loyalty === tier).length})`}
           </button>
         ))}
@@ -102,7 +103,7 @@ export const CRMClientsView = ({ clients = [], setClients, projects = [], showTo
       {/* Client Cards */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {filtered.length === 0 && (
-          <div style={{ textAlign: 'center', padding: 40, color: '#94a3b8', background: '#fff', borderRadius: 14, border: '1px solid #e2e8f0' }}>
+          <div style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)', background: 'var(--card-bg)', borderRadius: 14, border: '1px solid var(--card-border)' }}>
             No clients found. Add your first client!
           </div>
         )}
@@ -111,31 +112,31 @@ export const CRMClientsView = ({ clients = [], setClients, projects = [], showTo
           const clientProjects = projects.filter(p => p.clientId === c.id);
           const isExpanded = expanded === c.id;
           return (
-            <div key={c.id} style={{ background: '#fff', borderRadius: 14, border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+            <div key={c.id} className="card hover-lift" style={{ overflow: 'hidden', borderLeft: `2px solid ${lc.text}` }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '14px 18px' }}>
                 {/* Avatar */}
-                <div style={{ width: 44, height: 44, borderRadius: 12, background: 'linear-gradient(135deg, #2563eb, #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 16, fontWeight: 800, flexShrink: 0 }}>
+                <div style={{ width: 44, height: 44, borderRadius: 13, background: 'linear-gradient(135deg, #22d3ee, #2563eb 55%, #10b981)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 16, fontWeight: 800, flexShrink: 0, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.3), 0 8px 20px -10px rgba(34,211,238,0.8)' }}>
                   {c.name.charAt(0)}
                 </div>
                 {/* Main Info */}
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                    <span style={{ fontSize: 14, fontWeight: 700, color: '#0f172a' }}>{c.name}</span>
+                    <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' }}>{c.name}</span>
                     <span style={{ background: lc.bg, color: lc.text, fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 99 }}>{lc.label}</span>
                   </div>
-                  <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>{c.company}</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>{c.company}</div>
                 </div>
                 {/* Contact Info */}
                 <div style={{ display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap' }}>
-                  <div style={{ fontSize: 12, color: '#475569', display: 'flex', alignItems: 'center', gap: 5 }}><Phone size={13} />{c.phone}</div>
-                  <div style={{ fontSize: 12, color: '#475569', display: 'flex', alignItems: 'center', gap: 5 }}><Mail size={13} />{c.email}</div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#10b981' }}>{LKR(c.totalRevenue)}</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: 5 }}><Phone size={13} />{c.phone}</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: 5 }}><Mail size={13} />{c.email}</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-success)' }}>{LKR(c.totalRevenue)}</div>
                 </div>
                 {/* Actions */}
                 <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                  <button onClick={() => openEdit(c)} style={{ border: 'none', background: '#f1f5f9', borderRadius: 8, padding: 7, cursor: 'pointer', display: 'flex', alignItems: 'center' }}><Edit2 size={14} color="#475569" /></button>
-                  <button onClick={() => handleDelete(c.id, c.name)} style={{ border: 'none', background: '#fee2e2', borderRadius: 8, padding: 7, cursor: 'pointer', display: 'flex', alignItems: 'center' }}><Trash2 size={14} color="#ef4444" /></button>
-                  <button onClick={() => setExpanded(isExpanded ? null : c.id)} style={{ border: 'none', background: '#f1f5f9', borderRadius: 8, padding: 7, cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                  <button onClick={() => openEdit(c)} style={{ border: 'none', background: 'var(--input-bg)', borderRadius: 8, padding: 7, cursor: 'pointer', display: 'flex', alignItems: 'center' }}><Edit2 size={14} color="#475569" /></button>
+                  <button onClick={() => handleDelete(c.id, c.name)} style={{ border: 'none', background: 'var(--color-danger-bg)', borderRadius: 8, padding: 7, cursor: 'pointer', display: 'flex', alignItems: 'center' }}><Trash2 size={14} color="#ef4444" /></button>
+                  <button onClick={() => setExpanded(isExpanded ? null : c.id)} style={{ border: 'none', background: 'var(--input-bg)', borderRadius: 8, padding: 7, cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
                     {isExpanded ? <ChevronUp size={14} color="#475569" /> : <ChevronDown size={14} color="#475569" />}
                   </button>
                 </div>
@@ -143,30 +144,30 @@ export const CRMClientsView = ({ clients = [], setClients, projects = [], showTo
 
               {/* Expanded Detail */}
               {isExpanded && (
-                <div style={{ borderTop: '1px solid #f1f5f9', padding: '14px 18px', background: '#f8fafc', display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+                <div style={{ borderTop: '1px solid var(--card-border)', padding: '14px 18px', background: 'var(--input-bg)', display: 'flex', gap: 20, flexWrap: 'wrap' }}>
                   <div style={{ flex: 1, minWidth: 200 }}>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: '#475569', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>Contact Details</div>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>Contact Details</div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                      <div style={{ fontSize: 12, color: '#334155', display: 'flex', alignItems: 'center', gap: 6 }}><Users size={13} color="#8b5cf6" /><strong>Contact:</strong> {c.contact}</div>
-                      <div style={{ fontSize: 12, color: '#334155', display: 'flex', alignItems: 'center', gap: 6 }}><MapPin size={13} color="#ef4444" />{c.address}</div>
-                      {c.notes && <div style={{ fontSize: 12, color: '#64748b', fontStyle: 'italic' }}>📝 {c.notes}</div>}
+                      <div style={{ fontSize: 12, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: 6 }}><Users size={13} color="#8b5cf6" /><strong>Contact:</strong> {c.contact}</div>
+                      <div style={{ fontSize: 12, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: 6 }}><MapPin size={13} color="#ef4444" />{c.address}</div>
+                      {c.notes && <div style={{ fontSize: 12, color: 'var(--text-muted)', fontStyle: 'italic' }}>📝 {c.notes}</div>}
                     </div>
                   </div>
                   <div style={{ flex: 2, minWidth: 280 }}>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: '#475569', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>Project History ({clientProjects.length})</div>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>Project History ({clientProjects.length})</div>
                     {clientProjects.length === 0 ? (
-                      <div style={{ fontSize: 12, color: '#94a3b8' }}>No projects linked yet</div>
+                      <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>No projects linked yet</div>
                     ) : (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                         {clientProjects.map(p => (
-                          <div key={p.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: '#fff', borderRadius: 8, border: '1px solid #e2e8f0' }}>
+                          <div key={p.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: 'var(--card-bg)', borderRadius: 8, border: '1px solid var(--card-border)' }}>
                             <div>
-                              <div style={{ fontSize: 12, fontWeight: 600, color: '#0f172a' }}>{p.name}</div>
-                              <div style={{ fontSize: 11, color: '#64748b' }}>{p.code} · {p.start} → {p.deadline}</div>
+                              <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)' }}>{p.name}</div>
+                              <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{p.code} · {p.start} → {p.deadline}</div>
                             </div>
                             <div style={{ textAlign: 'right' }}>
                               <Badge status={p.status} />
-                              <div style={{ fontSize: 12, fontWeight: 700, color: '#2563eb', marginTop: 4 }}>{LKR(p.quoted)}</div>
+                              <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--accent-sky)', marginTop: 4 }}>{LKR(p.quoted)}</div>
                             </div>
                           </div>
                         ))}
@@ -185,22 +186,22 @@ export const CRMClientsView = ({ clients = [], setClients, projects = [], showTo
         <Modal title={editId ? 'Edit Client' : 'Add New Client'} onClose={() => setShowModal(false)} w={600}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <FormField label="Client / Company Name" req>
-              <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} placeholder="Arpico Supercentre" />
+              <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} placeholder="Arpico Supercentre" />
             </FormField>
             <FormField label="Parent Company">
-              <input value={form.company} onChange={e => setForm({ ...form, company: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} placeholder="Richard Pieris & Co" />
+              <input value={form.company} onChange={e => setForm({ ...form, company: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} placeholder="Richard Pieris & Co" />
             </FormField>
             <FormField label="Primary Contact Person">
-              <input value={form.contact} onChange={e => setForm({ ...form, contact: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} />
+              <input value={form.contact} onChange={e => setForm({ ...form, contact: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} />
             </FormField>
             <FormField label="Phone Number">
-              <input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} placeholder="0771234567" />
+              <input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} placeholder="0771234567" />
             </FormField>
             <FormField label="Email Address" req>
-              <input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} />
+              <input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} />
             </FormField>
             <FormField label="Loyalty Tier">
-              <select value={form.loyalty} onChange={e => setForm({ ...form, loyalty: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }}>
+              <select value={form.loyalty} onChange={e => setForm({ ...form, loyalty: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }}>
                 <option value="high">High Value</option>
                 <option value="medium">Medium</option>
                 <option value="low">Low</option>
@@ -208,17 +209,17 @@ export const CRMClientsView = ({ clients = [], setClients, projects = [], showTo
             </FormField>
           </div>
           <FormField label="Address">
-            <input value={form.address} onChange={e => setForm({ ...form, address: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} placeholder="No. 123, Main Street, Colombo" />
+            <input value={form.address} onChange={e => setForm({ ...form, address: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} placeholder="No. 123, Main Street, Colombo" />
           </FormField>
           <FormField label="Total Revenue (LKR)">
-            <input type="number" value={form.totalRevenue} onChange={e => setForm({ ...form, totalRevenue: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12 }} />
+            <input type="number" value={form.totalRevenue} onChange={e => setForm({ ...form, totalRevenue: e.target.value })} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12 }} />
           </FormField>
           <FormField label="Notes">
-            <textarea value={form.notes || ''} onChange={e => setForm({ ...form, notes: e.target.value })} rows={2} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 12, resize: 'vertical' }} />
+            <textarea value={form.notes || ''} onChange={e => setForm({ ...form, notes: e.target.value })} rows={2} style={{ width: '100%', padding: 8, borderRadius: 8, border: '1px solid var(--card-border)', fontSize: 12, resize: 'vertical' }} />
           </FormField>
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 4 }}>
-            <button onClick={() => setShowModal(false)} style={{ padding: '9px 18px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
-            <button onClick={handleSave} style={{ padding: '9px 20px', borderRadius: 8, border: 'none', background: '#2563eb', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer' }}>
+            <button onClick={() => setShowModal(false)} style={{ padding: '9px 18px', borderRadius: 8, border: '1px solid var(--card-border)', background: 'var(--card-bg)', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
+            <button onClick={handleSave} style={{ padding: '9px 20px', borderRadius: 8, border: 'none', background: 'var(--btn-primary)', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer' }}>
               {editId ? 'Save Changes' : 'Add Client'}
             </button>
           </div>

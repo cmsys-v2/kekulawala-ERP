@@ -1,11 +1,32 @@
-# Kekulawala Unified Enterprise ERP System (v5.0)
+# Kekulawala Unified Enterprise ERP System (v6.0 — Aurora Command)
 
 [![Firebase](https://img.shields.io/badge/Firebase-Cloud%20Firestore-FFCA28?logo=firebase&logoColor=black)](https://console.firebase.google.com/project/kekulawala-erp)
 [![Node.js](https://img.shields.io/badge/Node.js-v20%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev)
 [![Vite](https://img.shields.io/badge/Vite-6.x-646CFF?logo=vite&logoColor=white)](https://vitejs.dev)
 
+
 A comprehensive, cloud-synchronized Enterprise Resource Planning (ERP) platform designed for large-scale operations, construction engineering, manufacturing, and commercial enterprises.
+
+---
+
+## ✨ Aurora Command — Interface v6.0
+
+The entire workspace has been re-created around a cinematic, AI-native visual
+language inspired by modern AI landing pages — while keeping every ERP workflow
+intact.
+
+| | |
+| :-- | :-- |
+| **Living backdrop** | Animated aurora blobs (cyan → blue → emerald), precision grid and film grain behind translucent glass panels. |
+| **Glass command shell** | Floating 24 px-radius sidebar, breadcrumb topbar with live badge, ⌘K command palette, notification tray and instant theme picker. |
+| **Bento Command Center** | Hero with live clock and gradient headline, sparkline KPI tiles, financial pulse chart, portfolio ring, Gemini copilot panel with a rotating conic frame, legal pulse, stock signals and live activity. |
+| **Four themes** | Midnight Aurora (default) · Emerald Flux · Onyx Neon · Daylight Pearl — persisted locally, instant. |
+| **Motion system** | Page-rise choreography, staggered KPI reveals, count-up metrics, sheen-swept primary buttons, boot splash and reduced-motion support. |
+| **Brand integrated** | The Kekulawala aperture mark, "Since 1982" lockup and real print-studio work are surfaced in the UI; brand assets live in `Kekulawala-Unified-ERP/public/brand/`. |
+| **Print preserved** | Quotations, invoices, POs and letters still render as pixel-perfect white A4 documents with letterhead, stamp and Sinhala watermark. |
+
+Full specification: [`Kekulawala-Unified-ERP/DESIGN_SYSTEM.md`](Kekulawala-Unified-ERP/DESIGN_SYSTEM.md)
 
 Connected to **Google Firebase Project**: [`kekulawala-erp`](https://console.firebase.google.com/project/kekulawala-erp)
 
@@ -50,10 +71,12 @@ Kekulawala-ERP/
 │   │   └── server.js                # Port 5000 REST API & Static Asset Server
 │   ├── scripts/                     # Master database seeding & migration scripts
 │   │   └── seedFirebase.js          # Firestore database synchronization seeder
-│   ├── public/                      # Static assets, branding, and icons
+│   ├── public/                      # Static assets and icons
+│   │   └── brand/                   # Logos, watermark, studio imagery (v6)
 │   ├── firebase.json                # Firebase Firestore, Storage, & Hosting config
 │   ├── firestore.rules              # Firestore Security & Access Rules
 │   ├── storage.rules                # Firebase Storage Security Rules
+│   ├── DESIGN_SYSTEM.md             # Aurora Command UI/UX specification (v6)
 │   ├── package.json                 # Unified ERP dependencies & scripts
 │   └── vite.config.js               # Vite frontend bundler configuration
 ├── Kekulawala-System-A/             # Standalone Module A: Business, HR & Finance
